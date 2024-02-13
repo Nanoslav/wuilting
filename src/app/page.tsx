@@ -4,10 +4,15 @@ import Image from "next/image";
 import {account} from "@/app/lib/appwrite";
 import {useEffect, useState} from "react";
 import {useUserContext} from "@/app/utils/UserContext";
+import Spinner from "@/app/components/Spinner";
 
 export default function Home() {
 
     const {loggedInUser, setLoggedInUser} = useUserContext();
+
+    if(loggedInUser === 'pending' || !loggedInUser) {
+        return <Spinner />
+    }
 
     return (
       <main className={'w-full h-full flex justify-center items-center bg-dark'} >

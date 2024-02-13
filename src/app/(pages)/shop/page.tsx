@@ -1,24 +1,21 @@
 import {databases} from "@/app/lib/appwrite";
 import {ID} from "appwrite";
+import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
 
 async function getShopProducts() {
-    const promise = databases.createDocument(
+    return await databases.listDocuments(
+        "wuilting",
+        "shop_products"
+    );
+}
+
+async function createShopProduct({id, title, description, image, date, cost}: ShopProductItem) {
+    const promise = await databases.createDocument(
         "wuilting",
         "shop_products",
         ID.unique(),
-        {}
+        { id, title, description, image, date, cost }
     );
-
-    promise.then(function (response) {
-        console.log(response);
-    }, function (error) {
-        console.log(error);
-    });
-}
-
-export default async function ShopPage() {
-    const products = await getShopProducts();
-    console.log(products);
 
 
 }
@@ -43,4 +40,11 @@ function Product({product}: any) {
             </div>
         </div>
     );
+}
+
+export default async function ShopPage() {
+    const products = await getShopProducts();
+    console.log(products)
+
+    return <></>
 }
