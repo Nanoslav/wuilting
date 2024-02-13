@@ -1,36 +1,37 @@
 import {databases} from "@/app/lib/appwrite";
 import {ID} from "appwrite";
 import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
+import {URLPattern} from "next/server";
+import React from "react";
+import {forEachEntryModule} from "next/dist/build/webpack/utils";
 
 async function getShopProducts() {
-    return await databases.listDocuments(
+    const res = await databases.listDocuments(
         "wuilting",
         "shop_products"
     );
+    return res.documents;
 }
 
-async function createShopProduct({id, title, description, image, date, cost}: ShopProductItem) {
-    const promise = await databases.createDocument(
+async function createShopProduct({title, description, image, is_new, cost}: ShopProductItem) {
+    return await databases.createDocument(
         "wuilting",
         "shop_products",
         ID.unique(),
-        { id, title, description, image, date, cost }
+        {title, description, image, is_new, cost}
     );
-
-
 }
 
-function Product({product}: any) {
-    const {id, title, description, image, date, cost} = product || {};
-
+function Product({title, description, image, is_new, cost}: ShopProductItem) {
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
-            <figure><img src="https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg" alt="Shoes"/>
+            <figure>
+                <img src={image.toString()} alt={title}/>
             </figure>
             <div className="card-body">
                 <h2 className="card-title">
                     {title}
-                    <div className="badge badge-secondary">{date ? "NEW": ""}</div>
+                    {is_new ? <div className="badge badge-secondary">NEW</div>: null}
                 </h2>
                 <p>{description}</p>
                 <div className="card-actions justify-end">
@@ -43,8 +44,21 @@ function Product({product}: any) {
 }
 
 export default async function ShopPage() {
-    const products = await getShopProducts();
-    console.log(products)
+    /*await createShopProduct({
+        title: "Opica",
+        description: "monkey",
+        image: new URL("https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"),
+        is_new: true,
+        cost: 500
+    })*/
+    const products: any = await getShopProducts();
 
-    return <></>
+    return (
+        <div>
+            {products.map((product: ShopProductItem, index: number) => {
+                return <Product {...product} key={index} />
+            })}
+        </div>
+    )
+
 }

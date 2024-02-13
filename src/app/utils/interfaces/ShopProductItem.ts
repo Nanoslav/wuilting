@@ -1,8 +1,7 @@
 export interface ShopProductItem {
-    id: number
     title: string
     description: string
     image: URL
-    date: Date
+    is_new: boolean
     cost: number
 }
