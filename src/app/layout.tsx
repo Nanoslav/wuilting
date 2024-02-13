@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import {Navbar} from "@/app/components/Navbar";
-import {UserContextProvider} from "@/app/utils/UserContext";
+import {Navbar} from "@/app/components/navbar/Navbar";
+import {InnerLayout} from "@/app/components/InnerLayout";
+import 'tippy.js/dist/tippy.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,11 +17,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
+
+    return (
     <html lang="en">
       <body className={`${inter.className} overflow-x-hidden h-[100dvh] w-[100dvw]`}>
-          <Navbar />
-          {children}
+          <InnerLayout>
+              <Navbar />
+              {children}
+          </InnerLayout>
       </body>
     </html>
   );
