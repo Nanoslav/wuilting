@@ -1,49 +1,28 @@
 import {databases} from "@/app/lib/appwrite";
 import {ID} from "appwrite";
 import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
-import {URLPattern} from "next/server";
 import React from "react";
-import {forEachEntryModule} from "next/dist/build/webpack/utils";
-
-async function getShopProducts() {
-    const res = await databases.listDocuments(
-        "wuilting",
-        "shop_products"
-    );
-    return res.documents;
-}
-
-async function createShopProduct({title, description, image, is_new, cost}: ShopProductItem) {
-    return await databases.createDocument(
-        "wuilting",
-        "shop_products",
-        ID.unique(),
-        {title, description, image, is_new, cost}
-    );
-}
-
-function Product({title, description, image, is_new, cost}: ShopProductItem) {
-    return (
-        <div className="card w-96 bg-base-100 shadow-xl">
-            <figure>
-                <img src={image.toString()} alt={title}/>
-            </figure>
-            <div className="card-body">
-                <h2 className="card-title">
-                    {title}
-                    {is_new ? <div className="badge badge-secondary">NEW</div>: null}
-                </h2>
-                <p>{description}</p>
-                <div className="card-actions justify-end">
-                    <div className="badge badge-outline">{cost}</div>
-                    <button className="btn btn-primary">Buy Now</button>
-                </div>
-            </div>
-        </div>
-    );
-}
+import ProductCard from "@/app/components/shop/ProductCard";
 
 export default async function ShopPage() {
+
+
+    async function getShopProducts() {
+        return (await databases.listDocuments(
+            "wuilting",
+            "shop_products"
+        )).documents;
+    }
+
+    async function createShopProduct({title, description, image, is_new, cost}: ShopProductItem) {
+        return await databases.createDocument(
+            "wuilting",
+            "shop_products",
+            ID.unique(),
+            {title, description, image, is_new, cost}
+        );
+    }
+
     /*await createShopProduct({
         title: "Opica",
         description: "monkey",
@@ -51,14 +30,21 @@ export default async function ShopPage() {
         is_new: true,
         cost: 500
     })*/
+
     const products: any = await getShopProducts();
 
     return (
-        <div>
-            {products.map((product: ShopProductItem, index: number) => {
-                return <Product {...product} key={index} />
-            })}
-        </div>
+        <main className='w-full h-full flex justify-center items-center'>
+            <div className='bg-base-100 rounded-md grid grid-cols-3 grid-flow-row gap-4 p-0.25/10 z-10 w-8/10 overflow-y-scroll max-h-8/10'>
+                {products.map((product: ShopProductItem, index: number) => {
+                    return (
+                        <div key={index} className="col-span-1 md:col-span-1 lg:col-span-1">
+                            <ProductCard {...product} />
+                        </div>
+                    )
+                })}
+            </div>
+        </main>
     )
 
 }
