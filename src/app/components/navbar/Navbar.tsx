@@ -5,7 +5,7 @@ import Link from "next/link";
 export const Navbar = () => {
 
     return (
-        <div className="navbar bg-base-100">
+        <div className="navbar bg-base-100 px-0.5/10 z-10">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -39,7 +39,7 @@ export const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">daisyUI</a>
+                <a className="btn btn-ghost text-xl">Wuilting</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
