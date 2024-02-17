@@ -7,7 +7,7 @@ export default async ({ req, res, log, error }) => {
       .setProject(process.env.APPWRITE_PROJECT)
       .setKey(process.env.APPWRITE_KEY);
 
-  export const users = new Users(client);
+  const users = new Users(client);
 
   const database = new Databases(client);
 
