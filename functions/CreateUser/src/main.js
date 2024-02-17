@@ -15,6 +15,8 @@ export default async ({ req, res, log, error }) => {
 
       const authID = newUser.$id;
 
+      const users = await users.list();
+      console.log("USERS", users)
       const user = await users.get(authID);
       console.log("USER", user)
 
