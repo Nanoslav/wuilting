@@ -1,5 +1,4 @@
 import { Client, Databases, Functions } from 'node-appwrite';
-import {Account} from "appwrite";
 
 const appwriteEndpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
 const appwriteProject = process.env.NEXT_PUBLIC_APPWRITE_PROJECT;
@@ -16,5 +15,6 @@ if (appwriteEndpoint && appwriteProject && appwriteKey) {
     console.error("Please make sure APPWRITE_ENDPOINT APPWRITE_PROJECT APPWRITE_KEY are defined in your environment variables.");
 }
 
+export const database = process.env.NEXT_PUBLIC_APPWRITE_DB_NAME ?? 'appwrite'
 export const databases = new Databases(client);
 export const functions = new Functions(client)

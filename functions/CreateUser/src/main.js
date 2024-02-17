@@ -11,6 +11,8 @@ export default async ({ req, res, log, error }) => {
   if (req.method === 'POST') {
     try {const newUser = req.body;
 
+      console.log("REQ BODY:", req.body)
+
       const authID = newUser.$id;
       const name = newUser.name;
 
@@ -19,7 +21,7 @@ export default async ({ req, res, log, error }) => {
           'users',
           authID,
           {
-            "username": name,
+            "name": name,
           },
           [
             Permission.read(Role.any()),

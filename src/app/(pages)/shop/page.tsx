@@ -1,5 +1,5 @@
-import {databases} from "@/app/lib/appwrite";
-import {ID} from "appwrite";
+import {databases} from "@/app/lib/appwrite-server";
+import {ID} from "node-appwrite";
 import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
 import React from "react";
 import ProductCard from "@/app/components/shop/ProductCard";
