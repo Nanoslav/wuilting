@@ -1,8 +1,6 @@
-"use client"
-
 import Image from "next/image";
 import {account} from "@/app/lib/appwrite";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {useUserContext} from "@/app/utils/UserContext";
 import Spinner from "@/app/components/Spinner";
 import ParticleBackground from "@/app/components/ParticleBackground";
@@ -11,11 +9,11 @@ import {faClockRotateLeft, faRankingStar, faStar} from "@fortawesome/free-solid-
 
 export default function Home() {
 
-    const {loggedInUser, setLoggedInUser} = useUserContext();
-
-    if(loggedInUser === 'pending' || !loggedInUser) {
-        return <Spinner />
-    }
+    // const {loggedInUser, setLoggedInUser} = useUserContext();
+    //
+    // if(loggedInUser === 'pending' || !loggedInUser) {
+    //     return <Spinner />
+    // }
 
     return (
       <main className={'w-full h-full flex justify-center items-center'} >
