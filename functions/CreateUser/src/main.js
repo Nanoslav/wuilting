@@ -1,4 +1,5 @@
-import { Client, Databases, ID, Permission, Role } from 'node-appwrite';
+import {Client, Databases, ID, Permission, Role, Users} from 'node-appwrite';
+import {client} from "../../../src/app/lib/appwrite-server.js";
 
 export default async ({ req, res, log, error }) => {
   const client = new Client()
@@ -6,22 +7,24 @@ export default async ({ req, res, log, error }) => {
       .setProject(process.env.APPWRITE_PROJECT)
       .setKey(process.env.APPWRITE_KEY);
 
+  export const users = new Users(client);
+
   const database = new Databases(client);
 
   if (req.method === 'POST') {
     try {const newUser = req.body;
 
-      console.log("REQ BODY:", req.body)
-
       const authID = newUser.$id;
-      const name = newUser.name;
+
+      const user = await users.get(authID);
+      console.log("USER", user)
 
       await database.createDocument(
           'wuilting',
           'users',
           authID,
           {
-            "name": name,
+            "name": user.name,
           },
           [
             Permission.read(Role.any()),
