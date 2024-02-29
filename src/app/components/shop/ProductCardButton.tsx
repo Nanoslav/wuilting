@@ -59,14 +59,14 @@ export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
     if (loggedInUser.purchasedProducts.some((product: any) => product.$id === id)){
         return (
             <div className="card-actions justify-end items-center">
-                <button className="btn btn-primary" onClick={purchaseShopProduct}>Owned</button>
+                <button className="btn btn-primary" onClick={purchaseShopProduct} title={'Owned'}>Owned</button>
             </div>
         )
     } else {
         return (
             <div className="card-actions justify-end items-center">
                 <div className="badge badge-outline">{cost}€</div>
-                <button className="btn btn-primary" onClick={purchaseShopProduct}>Buy Now</button>
+                <button className="btn btn-primary" onClick={purchaseShopProduct} title={'Buy Now'}>Buy Now</button>
             </div>
         )
     }

@@ -28,10 +28,10 @@ const UserIcon = () => {
                 </div>
                 <ul tabIndex={0}
                     className="mt-3 z-50 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                    <li><Link href={'#'}>{loggedInUser.name} - {loggedInUser.money} 🪙</Link></li>
-                    <li><Link href={'#'}>Profile</Link></li>
-                    <li><Link href={'#'}>Settings</Link></li>
-                    <li><Link href={'logout'}>Logout</Link></li>
+                    <li><Link href={'#'} title={loggedInUser.name}>{loggedInUser.name} - {loggedInUser.money} 🪙</Link></li>
+                    <li><Link href={'#'} title={'Profile'}>Profile</Link></li>
+                    <li><Link href={'#'} title={'Settings'}>Settings</Link></li>
+                    <li><Link href={'logout'} title={'Logout'}>Logout</Link></li>
                 </ul>
             </div>
             {loggedInUser.labels.includes("admin") && (

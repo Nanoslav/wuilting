@@ -14,7 +14,7 @@ export const WuiltingHistoryMain = ({ wuiltingWords, wuiltingWordCount, wuilting
     return (
         <div className={'bg-base-100 rounded-md flex flex-col gap-[1dvw] p-0.25/10 z-10 w-6/10'}>
             <div className="relative">
-                <Link href={"/history"} className="absolute top-0 left-0 btn btn-square">
+                <Link href={"/history"} className="absolute top-0 left-0 btn btn-square" title={'History'}>
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"

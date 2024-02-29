@@ -124,7 +124,7 @@ export const WuiltingMain = () => {
                     <form className="card-actions w-full" onSubmit={submitWuilting}>
                         <input type="text text-1.25" placeholder="🔥 Next word?"
                                className="input input-bordered w-full" ref={inputRef} disabled={isLastWuilter} autoFocus />
-                        <button type="submit" className="invisible w-0 h-0" disabled={isLastWuilter}>Submit</button>
+                        <button type="submit" className="invisible w-0 h-0" disabled={isLastWuilter} title={'Submit'}>Submit</button>
                     </form>
                 </div>
             </div>
