@@ -5,7 +5,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import {WuiltingAdminEdit} from "@/app/components/wuilting/WuiltingAdminEdit";
 
-export const revalidate = 86400;
+export const revalidate = 0;
 
 const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
 

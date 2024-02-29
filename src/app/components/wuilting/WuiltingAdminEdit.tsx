@@ -5,7 +5,7 @@ import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
 import React, {useState} from "react";
 import {useUserContext} from "@/app/utils/UserContext";
 import sendToast from "@/app/utils/sendToast";
-import {database, databases} from "@/app/lib/appwrite";
+import {account, database, databases} from "@/app/lib/appwrite";
 import {ID, Permission, Role} from "appwrite";
 
 export const WuiltingAdminEdit = ({ text, words, wuiltingDate } : { text: string, words: number, wuiltingDate: Date }) => {
@@ -21,44 +21,27 @@ export const WuiltingAdminEdit = ({ text, words, wuiltingDate } : { text: string
         try {
             setLoading(true);
 
-            // const jwt = await account.createJWT()
-            //
-            // let constructedBody = JSON.stringify({
-            //     "text": text,
-            //     "words": words,
-            //     "jwt": jwt
-            // });
-            //
-            // const response = await fetch(`/api/saveWuilting`, {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: constructedBody
-            // });
-            //
-            // console.log(response)
-            //
-            // if (!response.ok) {
-            //     throw new Error('Failed to save wuilting');
-            // }
+            const jwt = await account.createJWT()
 
-            await databases.createDocument(
-                database,
-                'wuilting_history',
-                ID.unique(),
-                {
-                    word: text,
-                    words: words,
-                    date: wuiltingDate,
-                    author: loggedInUser.$id
+            let constructedBody = JSON.stringify({
+                "word": text,
+                "words": words,
+                "jwt": jwt,
+                "date": wuiltingDate,
+                "author": loggedInUser.$id
+            });
+
+            const response = await fetch(`/api/saveWuilting`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                [
-                    Permission.read(Role.any()),
-                    Permission.update(Role.team("admin")),
-                    Permission.delete(Role.team("admin")),
-                ]
-            );
+                body: constructedBody
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to save wuilting');
+            }
 
             sendToast('success', 'Wuilting saved successfully');
         } catch (err: any) {
