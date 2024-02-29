@@ -15,12 +15,15 @@ export const Navbar = () => {
             <li>
                 <Link href="/about" title={'About us'}>About us</Link>
             </li>
+            <li>
+                <Link href="/privacy-policy" title={'Privacy Policy'}>Privacy Policy</Link>
+            </li>
         </>
     )
 
     return (
         <div className="navbar bg-base-100 px-0.5/10 z-10 opacity-100">
-            <div className="navbar-start">
+        <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden" title={'Collapse/Expand'}>
                         <svg

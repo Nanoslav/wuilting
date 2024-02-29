@@ -3,7 +3,7 @@
 import {Account} from "appwrite";
 import {account, client} from "@/app/lib/appwrite";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDiscord, faGithub, faGoogle} from '@fortawesome/free-brands-svg-icons'
+import {faDiscord, faFacebook, faGithub, faGoogle} from '@fortawesome/free-brands-svg-icons'
 import { useRouter } from 'next/navigation'
 import {useEffect} from "react";
 import {useUserContext} from "@/app/utils/UserContext";
@@ -33,10 +33,12 @@ export default function Login() {
                 <h1 className="mb-1 text-5xl font-semibold text-center text-teal-300">💫 Wuilting 💫</h1>
                 <h2 className="mb-5 font-semibold text-center text-purple-700 text-gray-300">Login</h2>
                 <div className='flex flex-col gap-[1dvw]'>
-                    <button title='Login with Discord' className="btn w-full" type={'button'} onClick={() => Login('discord')}>
+                    <button title='Login with Discord' className="btn w-full" type={'button'}
+                            onClick={() => Login('discord')}>
                         <FontAwesomeIcon icon={faDiscord}/> Login with Discord
                     </button>
-                    <button title='Login with Google' className="btn w-full" type={'button'} onClick={() => Login('google')}>
+                    <button title='Login with Google' className="btn w-full" type={'button'}
+                            onClick={() => Login('google')}>
                         <FontAwesomeIcon icon={faGoogle}/> Login with Google
                     </button>
                     {/*<button title='Login with Github' className="btn w-full" type={'button'} onClick={() => Login('github')}>*/}
