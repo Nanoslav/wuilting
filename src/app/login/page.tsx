@@ -26,7 +26,7 @@ export default function Login() {
     // mas manly socket >3
 
     return (
-        <div className="relative flex flex-col justify-center h-screen overflow-hidden">
+        <main className="relative flex flex-col justify-center h-screen overflow-hidden">
             <div className="p-0.5/10 lg:p-0.25/10 m-auto rounded-md shadow-md w-9/10 md:w-6/10 lg:w-4/10 bg-base-100">
                 {/*<h2 className="mb-1 text-2xl lg:text-2 font-semibold text-center text-teal-300">💫 Wuilting 💫</h2>*/}
                 <h1 className="mb-5 font-semibold text-center text-10 sm:text-7.5 md:text-5 lg:text-3">Login</h1>
@@ -44,7 +44,7 @@ export default function Login() {
                     {/*</button>*/}
                 </div>
             </div>
-        </div>
+        </main>
     )
 
 }

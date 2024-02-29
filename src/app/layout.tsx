@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type {Metadata, Viewport} from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import {Navbar} from "@/app/components/navbar/Navbar";
@@ -8,6 +8,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+    themeColor: 'cyan',
+}
 
 export const metadata: Metadata = {
     title: {

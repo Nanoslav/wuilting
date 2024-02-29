@@ -8,14 +8,14 @@ export const metadata = {
 export default function About() {
     return (
         <main className="relative flex flex-col justify-center h-screen overflow-hidden">
-            <div className="p-0.5/10 lg:p-0.25/10 m-auto rounded-md shadow-md w-9/10 lg:w-4/10 bg-base-100 h-4/5">
+            <div className="p-0.5/10 lg:p-0.25/10 m-auto rounded-md shadow-md w-9/10 md:w-6/10 lg:w-4/10 bg-base-100 overflow-y-auto h-4/5">
                 <h1 className="mb-1 text-5xl font-semibold text-center">
                     💫 Wuilting 💫
                 </h1>
                 <h2 className="mb-5 font-semibold text-center">
                     About us ❤️
                 </h2>
-                <div className='flex flex-col gap-[0.5dvw] overflow-y-auto h-3/5'>
+                <div className='flex flex-col gap-[0.5dvw] h-3/5'>
                     <div>
                         <h5 className="font-semibold">Dragon</h5>
                         <Image
