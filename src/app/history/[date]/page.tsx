@@ -32,7 +32,7 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
                                   d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </Link>
-                    <WuiltingAdminEdit text={wuiltingWords} words={wuiltingWordCount} wuiltingDate={wuiltings[0].$updatedAt} isSaved={!!(wuiltings && wuiltings[0] && wuiltings[0].words)} />
+                    <WuiltingAdminEdit text={wuiltingWords} words={wuiltingWordCount} wuiltingDate={((wuiltings && wuiltings[0] && wuiltings[0].$updatedAt) ? wuiltings[0].$updatedAt : new Date())} isSaved={!!(wuiltings && wuiltings[0] && wuiltings[0].words)} />
                 </div>
                 <h2 className='text-center text-2.5 font-bold'>⏰ Wuilting History 📜</h2>
                 <h3 className="text-center text-1">

@@ -66,6 +66,7 @@ export const WuiltingMain = () => {
 
     const submitWuilting = async (e: any) => {
         e.preventDefault();
+        setIsLastWuilter(true);
         const wuilting = inputRef.current?.value;
         if (wuilting) {
             const oneWord = wuilting.split(' ')[0];
@@ -75,6 +76,7 @@ export const WuiltingMain = () => {
             });
         }
         inputRef.current!.value = '';
+        // TODO: upravic to, že to rovno pridá do wuiltingsRef.current namiesto toho, aby to čakalo na event
     }
 
     return (
