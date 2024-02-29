@@ -1,7 +1,7 @@
 "use client"
 
-import React, {useEffect} from "react";
-import {databases} from "@/app/lib/appwrite";
+import React, {useEffect, useState} from "react";
+import {account, databases} from "@/app/lib/appwrite";
 import {useUserContext} from "@/app/utils/UserContext";
 import {UserData} from "@/app/utils/UserData";
 import sendToast from "@/app/utils/sendToast";
@@ -10,22 +10,45 @@ import Spinner from "@/app/components/Spinner";
 export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
 
     const { loggedInUser, setLoggedInUser } = useUserContext();
+    const [loading, setLoading] = useState<boolean>(false);
     const {getData, setData} = UserData()
 
     async function purchaseShopProduct() {
         try {
-            const updatedProducts = [...loggedInUser.purchasedProducts, id]
+            setLoading(true);
 
-            await databases.updateDocument("wuilting", 'users', loggedInUser.$id, {
-                purchasedProducts: updatedProducts
+            const jwt = await account.createJWT()
+
+            let constructedBody = JSON.stringify({
+                "productId": id,
+                "jwt": jwt,
             });
 
+            const response = await fetch(`/api/purchaseShopProduct`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: constructedBody
+            });
+
+            const responseJson = await response.json()
+
+            if (!response.ok) {
+                throw new Error(responseJson.error);
+            }
+
+            if(!responseJson || !responseJson?.purchasedProducts || Object.keys(responseJson?.purchasedProducts).length === 0){
+                throw new Error('Failed to purchase the product.')
+            }
+            await setData("purchasedProducts", responseJson?.purchasedProducts)
+            console.log(loggedInUser)
             sendToast("success", "Product purchased successfully")
-
-            await setData("purchasedProducts", updatedProducts)
-
-        } catch (e) {
-            console.log(e)
+        } catch (err: any) {
+            sendToast('error', err.message)
+            console.error(err);
+        } finally {
+            setLoading(false);
         }
     }
 

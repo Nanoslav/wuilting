@@ -8,7 +8,7 @@ import sendToast from "@/app/utils/sendToast";
 import {account, database, databases} from "@/app/lib/appwrite";
 import {ID, Permission, Role} from "appwrite";
 
-export const WuiltingAdminEdit = ({ text, words, wuiltingDate } : { text: string, words: number, wuiltingDate: Date }) => {
+export const WuiltingAdminEdit = ({ text, words, wuiltingDate, isSaved } : { text: string, words: number, wuiltingDate: Date, isSaved: boolean }) => {
 
     const { loggedInUser } = useUserContext();
     const [loading, setLoading] = useState<boolean>(false);
@@ -60,8 +60,8 @@ export const WuiltingAdminEdit = ({ text, words, wuiltingDate } : { text: string
                 </div>
                 <ul tabIndex={0}
                     className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52">
-                    <li><a href={"#"} onClick={saveWuilting}>Save</a></li>
-                    <li><a href={'#'}>Edit</a></li>
+                    <li><a href={"#"} onClick={saveWuilting}>{isSaved ? 'Resave' : 'Save'}</a></li>
+                    {isSaved && <li><a href={'#'}>Edit</a></li>}
                 </ul>
             </div>
         </div>

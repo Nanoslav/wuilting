@@ -32,19 +32,19 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
                                   d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </Link>
-                    <WuiltingAdminEdit text={wuiltingWords} words={wuiltingWordCount} wuiltingDate={wuiltings[0].$updatedAt} />
+                    <WuiltingAdminEdit text={wuiltingWords} words={wuiltingWordCount} wuiltingDate={wuiltings[0].$updatedAt} isSaved={!!(wuiltings && wuiltings[0] && wuiltings[0].words)} />
                 </div>
                 <h2 className='text-center text-2.5 font-bold'>⏰ Wuilting History 📜</h2>
                 <h3 className="text-center text-1">
                     {`${new Date(start).toLocaleDateString('cs-CZ')} ${new Date(start).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
-                        hour12: false
+                        hourCycle: "h23"
                     })} - 
                 ${new Date(end).toLocaleDateString('cs-CZ')} ${new Date(end).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
-                        hour12: false
+                        hourCycle: "h23"
                     })}`}
                 </h3>
                 <div className='flex flex-col items-center justify-between w-full px-[2dvw] h-[40dvh] overflow-y-auto'>

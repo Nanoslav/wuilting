@@ -1,4 +1,4 @@
-import {Client, Databases, Functions, Users} from 'node-appwrite';
+import {Client, Databases, Functions, Users, Account} from 'node-appwrite';
 
 const appwriteEndpoint = process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT;
 const appwriteProject = process.env.NEXT_PUBLIC_APPWRITE_PROJECT;
@@ -17,3 +17,4 @@ export const users = new Users(client);
 export const database = process.env.NEXT_PUBLIC_APPWRITE_DB_NAME ?? 'appwrite'
 export const databases = new Databases(client);
 export const functions = new Functions(client)
+export const account = new Account(client)
