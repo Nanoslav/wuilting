@@ -14,7 +14,7 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
     const start = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
     const end = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59).toISOString();
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/getWuiltings/${params.date}`); // Must be fetch() in order for this route to be cached
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/getWuiltings/${params.date}`); //  Must be fetch() in order for this route to be cached
     const wuiltings: WuiltingObject[] = JSON.parse(await response.text());
 
     return (
