@@ -9,7 +9,7 @@ export default async function Home() {
     const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
 
     return (
-      <main className={'w-full h-full flex justify-center items-center'} >
+      <main className={'w-full flex justify-center items-center h-9.5/10'} >
           <div className={'bg-base-100 rounded-md flex flex-col gap-[1dvw] p-0.25/10 z-10 h-2/3 w-4/10'}>
               <h2 className='text-center text-2.5 font-bold'>🌟 Wuilting ✨</h2>
               <div className='flex flex-row items-center justify-between w-full'>

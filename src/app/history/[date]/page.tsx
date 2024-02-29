@@ -19,8 +19,9 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
     const wuiltingWordCount = (wuiltings && wuiltings[0] && wuiltings[0].words) ? wuiltings[0].words : wuiltingWords.length;
 
     return (
-        <main className={'w-full h-full flex justify-center items-center'}>
-            <WuiltingHistoryMain wuiltingWords={wuiltingWords} wuiltings={wuiltings} wuiltingWordCount={wuiltingWordCount} end={end} start={start} />
+        <main className={'w-full flex justify-center items-center h-9.5/10'} >
+            <WuiltingHistoryMain wuiltingWords={wuiltingWords} wuiltings={wuiltings}
+                                 wuiltingWordCount={wuiltingWordCount} end={end} start={start}/>
         </main>
     )
 

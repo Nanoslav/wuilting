@@ -63,7 +63,7 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
     useEffect(() => {
         if(loggedInUser){
             loggedInUserRef.current = loggedInUser;
-            if(!wuiltingsRef.current[0] || wuiltingsRef.current[0].author.$id === loggedInUser.$id){
+            if(!wuiltingsRef.current[0] || loggedInUser === 'pending' || wuiltingsRef.current[0].author.$id === loggedInUser.$id){
                 setIsLastWuilter(true);
             } else {
                 setIsLastWuilter(false);
@@ -107,7 +107,7 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
     return (
         <div className='w-full h-full flex flex-col justify-center items-center text-center'>
             <div className="card w-full bg-base-200 shadow-xl">
-                <div className="card-body">
+                <div className="card-body h-2/3">
                     <h2 className="card-title text-1.5">Last words...</h2>
                     <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
                         {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}

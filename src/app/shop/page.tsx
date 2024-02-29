@@ -25,7 +25,7 @@ export default async function ShopPage() {
     const products: any = await getShopProducts();
 
     return (
-        <main className='w-full h-full flex justify-center items-center'>
+        <main className={'w-full flex justify-center items-center h-9.5/10'} >
             <div className='bg-base-100 rounded-md p-0.25/10 z-10 w-8/10 overflow-y-scroll max-h-8/10 flex flex-col'>
                 <div className='relative'>
                     <div className='absolute top-[-2dvw] right-[-2dvw] text-1.25'>
