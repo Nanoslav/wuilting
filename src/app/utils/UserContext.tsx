@@ -26,7 +26,7 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
     const [loggedInUser, setLoggedInUser] = useState<UserObject | null | "pending">("pending");
 
     const addUserDBData = async (retryCount =  0) => {
-        if (!loggedInUser || loggedInUser === "pending" || !loggedInUser.$id) {
+        if (!loggedInUser || loggedInUser === "pending" || !loggedInUser.$id || loggedInUser.purchasedProducts) {
             return;
         }
 
@@ -41,11 +41,11 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
 
             const data: UserDBObject = await response.json();
 
-            const newLoggedInUser: any = loggedInUser;
+            const newLoggedInUser: any = {...loggedInUser};
             newLoggedInUser.avatar = data.avatar;
             newLoggedInUser.money = data.money;
-            // TODO: add more fields here
             newLoggedInUser.purchasedProducts = data.purchasedProducts;
+            console.info("USER CONTEXT: Fetched user data:", newLoggedInUser);
             setLoggedInUser(newLoggedInUser);
         } catch (error) {
             console.error('Error fetching user data:', error);

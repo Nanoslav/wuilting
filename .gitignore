@@ -38,3 +38,5 @@ next-env.d.ts
 
 /functions/CreateUser/node_modules/
 /functions/DeleteUser/node_modules/
+
+/.idea

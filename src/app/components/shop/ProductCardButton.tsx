@@ -29,13 +29,11 @@ export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
         }
     }
 
-    console.log(loggedInUser)
-
     if(!loggedInUser || loggedInUser === 'pending' || !loggedInUser.purchasedProducts){
         return <Spinner/>
     }
 
-    if (loggedInUser.purchasedProducts.contains(id)){
+    if (loggedInUser.purchasedProducts.some((product: any) => product.$id === id)){
         return (
             <div className="card-actions justify-end items-center">
                 <button className="btn btn-primary" onClick={purchaseShopProduct}>Owned</button>

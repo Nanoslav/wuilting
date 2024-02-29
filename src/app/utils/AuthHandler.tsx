@@ -1,3 +1,5 @@
+"use client"
+
 import React, {useEffect} from 'react';
 import {usePathname, useRouter} from "next/navigation";
 import {useUserContext} from "@/app/utils/UserContext";
@@ -12,12 +14,13 @@ const AuthHandler = () => {
 
     const fetchUser = async () => {
         try {
-            const data = await account.get();
+            const data: any = await account.get();
             setLoggedInUser(data);
         } catch (error) {
-            console.log("the error that happened:", error);
             setLoggedInUser(null);
+            console.info("AUTH HANDLER: NOT LOGGED IN.")
             if (pathname !== '/login') {
+                console.info("AUTH HANDLER: REDIRECTING TO LOGIN.")
                 router.push('/login');
             }
         }

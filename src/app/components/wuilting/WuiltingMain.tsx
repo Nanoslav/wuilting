@@ -45,20 +45,7 @@ export const WuiltingMain = () => {
             }
         });
 
-        return () => {
-            unsubscribe()
-        };
-
-        setLoading(false)
-
-    }, []);
-
-    if(!loggedInUser){
-        return <Spinner />
-    }
-
-    useEffect(() => {
-        if(wuiltings && wuiltings[0] && wuiltings[0].author.$id === loggedInUser.$id){
+        if(wuiltings && wuiltings[0] && loggedInUser && wuiltings[0].author.$id === loggedInUser.$id){
             setIsLastWuilter(true)
         } else {
             setIsLastWuilter(false)
@@ -66,7 +53,16 @@ export const WuiltingMain = () => {
                 inputRef.current?.focus();
             },  50);
         }
+
+        return () => {
+            unsubscribe()
+        };
+
     }, [wuiltings]);
+
+    if(!loggedInUser){
+        return <Spinner />
+    }
 
     const submitWuilting = async (e: any) => {
         e.preventDefault();
