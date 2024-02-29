@@ -49,10 +49,9 @@ export const WuiltingMain = () => {
                 setWuiltings(fetchedWuiltings.documents);
                 wuiltingsRef.current = fetchedWuiltings.documents
             }
+            setLoading(false)
         }
         fetchWuiltings();
-
-        setLoading(false)
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
             const res: any = response.payload
@@ -80,10 +79,6 @@ export const WuiltingMain = () => {
             loggedInUserRef.current = 'none'
         }
     }, [loggedInUser]);
-
-    if(loggedInUser === 'pending' || !loggedInUserRef.current){
-        return <Spinner />
-    }
 
     const submitWuilting = async (e: any) => {
         e.preventDefault();
@@ -115,24 +110,30 @@ export const WuiltingMain = () => {
         }
     }
 
+    console.log(loggedInUser, loading)
+
     return (
         <div className='w-full h-full flex flex-col justify-center items-center text-center'>
             <div className="card w-full bg-base-200 shadow-xl">
                 <div className="card-body">
                     <h2 className="card-title text-1.5">Last words...</h2>
-                    <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
-                        {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}
-                        {(loggedInUser === 'pending' || loading) ?
-                                <Spinner />
-                            : (
-                                wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
-                                    return (
-                                        <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-1.25`}>{wuilting.word}</span>
-                                    )
-                                }, [])
-                        )}
+                    {(loggedInUser === 'pending' || loading ? (
+                        <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
+                            {Array.from({ length: 5 }).map((_, index) => (
+                                <div key={index} className="skeleton w-full h-[1.25dvw] m-[0.5dvw]"></div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
+                            {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}
+                            {wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
+                                return (
+                                    <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-1.25`}>{wuilting.word}</span>
+                                )
+                            }, [])}
+                        </div>
+                    ))}
 
-                    </div>
                     <form className="card-actions w-full" onSubmit={submitWuilting}>
                         <input type="text text-1.25" placeholder="🔥 Next word?"
                                className="input input-bordered w-full" ref={inputRef} disabled={isLastWuilter} autoFocus />
