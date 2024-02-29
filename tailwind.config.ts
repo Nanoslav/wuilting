@@ -65,6 +65,8 @@ const config: Config = {
         '3': '3dvw',
         '4': '4dvw',
         '5': '5dvw',
+        '6': '6dvw',
+        '7.5': '7.5dvw',
         '10': '10dvw',
         '20': '20dvw',
         '25': '25dvw',

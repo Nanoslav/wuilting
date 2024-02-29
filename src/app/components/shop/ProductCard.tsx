@@ -4,7 +4,7 @@ import {ProductCardButton} from "@/app/components/shop/ProductCardButton";
 
 export default function ProductCard({$id, title, description, image, is_new, cost}: ShopProductItem) {
     return (
-        <div className="card w-96 bg-base-200 shadow-2xl">
+        <div className="card w-96 bg-base-200 shadow-2xl w-full">
             <figure>
                 <img src={image.toString()} alt={title} className='h-[10dvw] w-full' />
             </figure>
