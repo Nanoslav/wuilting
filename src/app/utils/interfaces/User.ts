@@ -16,7 +16,7 @@ export interface UserRawObject {
     prefs: Record<string, unknown>;
     accessedAt: string;
     avatar: string;
-    purchasedProducts: string[];
+    purchasedProducts: ShopProductItem[];
 }
 
 export interface UserDBObject {
