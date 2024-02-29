@@ -30,7 +30,7 @@ export default function Login() {
     return (
         <div className="relative flex flex-col justify-center h-screen overflow-hidden">
             <div className="w-full p-6 m-auto rounded-md shadow-md lg:max-w-lg bg-base-100">
-                <h1 className="mb-1 text-5xl font-semibold text-center text-white">💫 Wuilting 💫</h1>
+                <h1 className="mb-1 text-5xl font-semibold text-center text-teal-300">💫 Wuilting 💫</h1>
                 <h2 className="mb-5 font-semibold text-center text-purple-700 text-gray-300">Login</h2>
                 <button className="btn w-full" type={'button'} onClick={() => Login()}>
                     <FontAwesomeIcon icon={faDiscord}/>

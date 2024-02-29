@@ -1,5 +1,7 @@
 "use client"
 
+import WuiltingObject from "@/app/utils/interfaces/Wuilting";
+
 export const revalidate = 0
 
 import React, {useEffect, useRef, useState} from 'react';
@@ -7,27 +9,36 @@ import {useUserContext} from "@/app/utils/UserContext";
 import Spinner from "@/app/components/Spinner";
 import {client, database, databases} from "@/app/lib/appwrite";
 import {ID, Query} from "appwrite";
+import {UserDBObject, UserObject} from "@/app/utils/interfaces/User";
 export const WuiltingMain = () => {
 
     const { loggedInUser } = useUserContext();
+    const loggedInUserRef = useRef<UserObject>(loggedInUser);
 
     const [isLastWuilter, setIsLastWuilter] = useState<boolean>(false);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const [wuiltings, setWuiltings] = useState<any>([]);
-    const wuiltingsRef = useRef<any>([]);
+    const [wuiltings, setWuiltings] = useState<WuiltingObject[]>([]);
+    const wuiltingsRef = useRef<WuiltingObject[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const updateWuiltings = (document: any) => {
+    const updateWuiltings = (document: WuiltingObject) => {
         const newWuiltings = [document, ...wuiltingsRef.current]
         if(newWuiltings.length > 5) newWuiltings.pop()
         wuiltingsRef.current = newWuiltings;
         setWuiltings(newWuiltings);
+        setTimeout(() => {
+            inputRef.current?.focus();
+        },  50);
     }
+
+    const checkLoggedInUser = (res: string) => {
+        return res && res !== loggedInUserRef.current.$id;
+    };
 
     useEffect(() => {
         const fetchWuiltings = async () => {
-            const fetchedWuiltings = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
+            const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
             if(fetchedWuiltings){
                 setWuiltings(fetchedWuiltings.documents);
                 wuiltingsRef.current = fetchedWuiltings.documents
@@ -39,28 +50,26 @@ export const WuiltingMain = () => {
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
             const res: any = response.payload
-
-            if(response.events.includes(`databases.${database}.collections.wuilting.documents.*.create`)){
-                updateWuiltings(res)
+            if(response.events.includes(`databases.${database}.collections.wuilting.documents.*.create`) && res && checkLoggedInUser(res?.author?.$id)){
+                updateWuiltings(res);
+                setIsLastWuilter(false);
             }
         });
-
-        if(wuiltings && wuiltings[0] && loggedInUser && wuiltings[0].author.$id === loggedInUser.$id){
-            setIsLastWuilter(true)
-        } else {
-            setIsLastWuilter(false)
-            setTimeout(() => {
-                inputRef.current?.focus();
-            },  50);
-        }
 
         return () => {
             unsubscribe()
         };
 
-    }, [wuiltings]);
+    }, []);
 
-    if(!loggedInUser){
+    useEffect(() => {
+        loggedInUserRef.current = loggedInUser;
+        if(wuiltingsRef.current[0] && wuiltingsRef.current[0].author.$id === loggedInUser.$id){
+            setIsLastWuilter(true);
+        }
+    }, [loggedInUser]);
+
+    if(!loggedInUser || loggedInUser === 'pending' || !loggedInUserRef.current){
         return <Spinner />
     }
 
@@ -68,15 +77,30 @@ export const WuiltingMain = () => {
         e.preventDefault();
         setIsLastWuilter(true);
         const wuilting = inputRef.current?.value;
-        if (wuilting) {
+        inputRef.current!.value = '';
+        if (wuilting && !isLastWuilter) {
             const oneWord = wuilting.split(' ')[0];
+
+            inputRef.current!.value = '';
+
+            const newWuiltingObject: WuiltingObject = {
+                word: oneWord,
+                $id: 'newWuilting',
+                $createdAt: new Date(),
+                $updatedAt: new Date(),
+                $permissions: [],
+                author: loggedInUser,
+                $databaseId: database,
+                $collectionId: 'wuilting',
+            }
+
+            updateWuiltings(newWuiltingObject)
+
             await databases.createDocument(database, 'wuilting', ID.unique(), {
                 word: oneWord,
                 author: loggedInUser.$id
             });
         }
-        inputRef.current!.value = '';
-        // TODO: upravic to, že to rovno pridá do wuiltingsRef.current namiesto toho, aby to čakalo na event
     }
 
     return (
@@ -89,7 +113,7 @@ export const WuiltingMain = () => {
                         {(!loggedInUser || loading) ?
                                 <Spinner />
                             : (
-                                wuiltings.toReversed().map((wuilting: any, index: number) => {
+                                wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
                                     return (
                                         <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-1.25`}>{wuilting.word}</span>
                                     )
