@@ -19,7 +19,6 @@ export default function Login() {
                 process.env.NEXT_PUBLIC_HOSTNAME,
                 process.env.NEXT_PUBLIC_HOSTNAME + "/login"
             );
-            console.log(response);
         } catch (error) {
             console.error("Failed to create OAuth session:", error);
         }
