@@ -4,7 +4,7 @@ import "./globals.css";
 import {Navbar} from "@/app/components/navbar/Navbar";
 import {InnerLayout} from "@/app/components/InnerLayout";
 import 'tippy.js/dist/tippy.css';
-import ParticleBackground from "@/app/components/ParticleBackground";
+import 'react-toastify/dist/ReactToastify.css';
 import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });

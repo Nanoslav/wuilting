@@ -7,6 +7,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {Prata} from "next/dist/compiled/@next/font/dist/google";
 import AuthHandler from "@/app/utils/AuthHandler";
 import ParticleBackground from "@/app/components/ParticleBackground";
+import {ToastContainer} from "react-toastify";
 
 export function InnerLayout({ children }: { children: React.ReactNode }) {
 
@@ -15,6 +16,7 @@ export function InnerLayout({ children }: { children: React.ReactNode }) {
             <AuthHandler />
             <ParticleBackground>
                 {children}
+                <ToastContainer />
             </ParticleBackground>
         </UserContextProvider>
     )

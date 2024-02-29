@@ -20,9 +20,9 @@ export default function Home() {
           <div className={'bg-base-100 rounded-md flex flex-col gap-[1dvw] p-0.25/10 z-10 min-w-4/10'}>
               <h2 className='text-center text-2.5 font-bold'>🌟 Wuilting ✨</h2>
               <div className='flex flex-row items-center justify-between w-full'>
-                  <button className="btn text-1 w-3/10"><FontAwesomeIcon className='text-1' icon={faRankingStar}/> Leaderboard</button>
-                  <button className="btn text-1 w-3/10"><FontAwesomeIcon className='text-1' icon={faStar} /> Top Wuilters</button>
-                  <button className="btn text-1 w-3/10"><FontAwesomeIcon className='text-1' icon={faClockRotateLeft} /> History</button>
+                  <button className="btn text-[1dvw] w-3/10"><FontAwesomeIcon icon={faRankingStar}/> Leaderboard</button>
+                  <button className="btn text-[1dvw] w-3/10"><FontAwesomeIcon icon={faStar} /> Top Wuilters</button>
+                  <button className="btn text-[1dvw] w-3/10"><FontAwesomeIcon icon={faClockRotateLeft} /> History</button>
               </div>
               <div className='w-full h-full flex flex-col justify-center items-center text-center'>
                   <div className="card w-full bg-base-200 shadow-xl">

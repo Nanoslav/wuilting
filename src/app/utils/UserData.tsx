@@ -9,7 +9,7 @@ export const UserData = () => {
         setUserData(loggedInUser);
     }, [loggedInUser]);
 
-    const get = async (key?: string) => {
+    const getData = async (key?: string) => {
         try {
             const newLoggedInUser = userData;
             return key ? newLoggedInUser[key] : newLoggedInUser;
@@ -18,9 +18,9 @@ export const UserData = () => {
         }
     };
 
-    const set = async (key: string, value: unknown) => {
+    const setData = async (key: string, value: unknown) => {
        try {
-           let data = await get();
+           let data = await getData();
 
            if (data) {
                data[key] = value;
@@ -32,5 +32,5 @@ export const UserData = () => {
        }
     };
 
-    return { get, set };
+    return { getData, setData };
 };

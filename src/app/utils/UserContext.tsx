@@ -1,10 +1,7 @@
 "use client"
 
-import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import Cookies from 'js-cookie';
-import login from '@/app/utils/login';
-import {Models} from "appwrite";
-import {UserDBObject, UserObject, UserRawObject} from "@/app/utils/interfaces/User";
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import {UserDBObject, UserObject} from "@/app/utils/interfaces/User";
 
 interface UserContextProps {
     children: ReactNode;
@@ -12,7 +9,7 @@ interface UserContextProps {
 
 interface UserContextValue {
     loggedInUser: any;
-    setLoggedInUser: React.Dispatch<React.SetStateAction<UserRawObject | null | "pending">>;
+    setLoggedInUser: React.Dispatch<React.SetStateAction<UserObject | null | "pending">>;
 }
 
 const UserContext = createContext<UserContextValue | undefined>(undefined);
@@ -26,7 +23,7 @@ export const useUserContext = () => {
 };
 
 export const UserContextProvider = ({ children }: UserContextProps) => {
-    const [loggedInUser, setLoggedInUser] = useState<UserRawObject | UserObject | null | "pending">("pending");
+    const [loggedInUser, setLoggedInUser] = useState<UserObject | null | "pending">("pending");
 
     const addUserDBData = async (retryCount =  0) => {
         if (!loggedInUser || loggedInUser === "pending" || !loggedInUser.$id) {
@@ -50,14 +47,12 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
             // TODO: add more fields here
             newLoggedInUser.purchasedProducts = data.purchasedProducts;
             setLoggedInUser(newLoggedInUser);
-
-            console.log("FINISHED LOGGED IN USER:", loggedInUser);
         } catch (error) {
             console.error('Error fetching user data:', error);
             if (retryCount <  2) {
                 setTimeout(() => {
                     addUserDBData(retryCount++);
-                },  1000);
+                },  2000);
             } else {
                 setLoggedInUser(null);
             }

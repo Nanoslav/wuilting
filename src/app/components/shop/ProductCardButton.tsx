@@ -1,41 +1,52 @@
 "use client"
 
-import React from "react";
+import React, {useEffect} from "react";
 import {databases} from "@/app/lib/appwrite";
 import {useUserContext} from "@/app/utils/UserContext";
 import {UserData} from "@/app/utils/UserData";
+import sendToast from "@/app/utils/sendToast";
+import Spinner from "@/app/components/Spinner";
 
 export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
 
     const { loggedInUser, setLoggedInUser } = useUserContext();
-    const {get, set} = UserData()
+    const {getData, setData} = UserData()
 
     async function purchaseShopProduct() {
         try {
+            const updatedProducts = [...loggedInUser.purchasedProducts, id]
 
-            const updatedProducts = {
-                ...loggedInUser.purchasedProducts, id
-            }
-
-            const result = await databases.updateDocument("wuilting", 'users', loggedInUser.$id, {
+            await databases.updateDocument("wuilting", 'users', loggedInUser.$id, {
                 purchasedProducts: updatedProducts
             });
 
-            //const newLoggedInUser = loggedInUser;
-            //newLoggedInUser.purchasedProducts = updatedProducts;
-            //setLoggedInUser(newLoggedInUser);
+            sendToast("success", "Product purchased successfully")
 
-            await set("purchasedProducts", updatedProducts)
+            await setData("purchasedProducts", updatedProducts)
 
         } catch (e) {
             console.log(e)
         }
     }
 
-    return (
-        <div className="card-actions justify-end items-center">
-            <div className="badge badge-outline">{cost}€</div>
-            <button className="btn btn-primary" onClick={purchaseShopProduct}>Buy Now</button>
-        </div>
-    );
+    console.log(loggedInUser)
+
+    if(!loggedInUser || loggedInUser === 'pending' || !loggedInUser.purchasedProducts){
+        return <Spinner/>
+    }
+
+    if (loggedInUser.purchasedProducts.contains(id)){
+        return (
+            <div className="card-actions justify-end items-center">
+                <button className="btn btn-primary" onClick={purchaseShopProduct}>Owned</button>
+            </div>
+        )
+    } else {
+        return (
+            <div className="card-actions justify-end items-center">
+                <div className="badge badge-outline">{cost}€</div>
+                <button className="btn btn-primary" onClick={purchaseShopProduct}>Buy Now</button>
+            </div>
+        )
+    }
 };
