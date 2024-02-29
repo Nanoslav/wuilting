@@ -1,8 +1,6 @@
 import React from 'react';
 import WuiltingObject from "@/app/utils/interfaces/Wuilting";
 import Link from "next/link";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 
 export const revalidate = 86400
 
