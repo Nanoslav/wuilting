@@ -8,7 +8,7 @@ import sendToast from "@/app/utils/sendToast";
 import {account, database, databases} from "@/app/lib/appwrite";
 import {ID, Permission, Role} from "appwrite";
 
-export const WuiltingAdminEdit = ({ text, words, wuiltingDate, isSaved } : { text: string, words: number, wuiltingDate: Date, isSaved: boolean }) => {
+export const WuiltingAdminEdit = ({ text, words, wuiltingDate, isSaved } : { text: string, words: number, wuiltingDate: Date, isSaved: string | null }) => {
 
     const { loggedInUser } = useUserContext();
     const [loading, setLoading] = useState<boolean>(false);
@@ -28,7 +28,8 @@ export const WuiltingAdminEdit = ({ text, words, wuiltingDate, isSaved } : { tex
                 "words": words,
                 "jwt": jwt,
                 "date": wuiltingDate,
-                "author": loggedInUser.$id
+                "author": loggedInUser.$id,
+                "isSaved": isSaved
             });
 
             const response = await fetch(`/api/saveWuilting`, {

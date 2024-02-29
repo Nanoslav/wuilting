@@ -19,7 +19,7 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
     const wuiltings: WuiltingObject[] = JSON.parse(await response.text());
 
     const wuiltingWords = wuiltings.map((wuilting: WuiltingObject) => wuilting.word).join(' ');
-    const wuiltingWordCount = wuiltings.length;
+    const wuiltingWordCount = (wuiltings && wuiltings[0] && wuiltings[0].words) ? wuiltings[0].words : wuiltingWords.length;
 
     return (
         <main className={'w-full h-full flex justify-center items-center'}>
@@ -32,7 +32,7 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
                                   d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </Link>
-                    <WuiltingAdminEdit text={wuiltingWords} words={wuiltingWordCount} wuiltingDate={((wuiltings && wuiltings[0] && wuiltings[0].$updatedAt) ? wuiltings[0].$updatedAt : new Date())} isSaved={!!(wuiltings && wuiltings[0] && wuiltings[0].words)} />
+                    <WuiltingAdminEdit text={wuiltingWords} words={wuiltingWordCount} wuiltingDate={((wuiltings && wuiltings[0] && wuiltings[0].$updatedAt) ? wuiltings[0].$updatedAt : new Date())} isSaved={(wuiltings && wuiltings[0] && wuiltings[0].words) ? wuiltings[0].$id : null} />
                 </div>
                 <h2 className='text-center text-2.5 font-bold'>⏰ Wuilting History 📜</h2>
                 <h3 className="text-center text-1">
@@ -52,7 +52,7 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
                         {wuiltingWords}
                     </div>
                 </div>
-                {wuiltings && wuiltings[0] && wuiltings[0].words && (wuiltings[0].words) }
+                {wuiltingWordCount}
             </div>
         </main>
     )
