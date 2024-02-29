@@ -4,6 +4,10 @@ import {account, client} from "@/app/lib/appwrite";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDiscord, faFacebook, faGithub, faGoogle} from '@fortawesome/free-brands-svg-icons'
 
+// export const metadata = {
+//     title: 'Log in',
+// }
+
 export default function Login() {
 
     const Login = (provider: string) => {

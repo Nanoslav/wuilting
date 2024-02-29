@@ -91,7 +91,7 @@ export default function RootLayout({
     return (
     <html lang="en">
     <body className={`${inter.className} overflow-hidden h-screen w-screen`}>
-        <link rel="icon" href="/wuilting_logo_76x76.png" type="image/png" sizes="any"/>
+        <link rel="icon" href="/favicon.ico" sizes="any"/>
         <InnerLayout>
             <Navbar/>
             {children}

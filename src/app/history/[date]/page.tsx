@@ -4,6 +4,11 @@ import {WuiltingHistoryMain} from "@/app/components/wuilting/WuiltingHistoryMain
 
 export const revalidate = 0;
 
+export const metadata = {
+    title: 'History',
+    description: 'Browse through the past wuiltings.'
+}
+
 const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
 
     const decodedDateString = decodeURIComponent(params.date);

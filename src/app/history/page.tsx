@@ -1,6 +1,10 @@
 import React from 'react';
 import {FormCalendar} from "@/app/components/form/Calendar";
 
+export const metadata = {
+    title: 'History',
+}
+
 const History = () => {
 
     return (

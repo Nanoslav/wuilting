@@ -5,6 +5,11 @@ import React from "react";
 import ProductCard from "@/app/components/shop/ProductCard";
 import {UserMoney} from "@/app/components/UserMoney";
 
+export const metadata = {
+    title: 'Shop',
+    description: 'Buy unique items with your Wuilting credits.',
+}
+
 export default async function ShopPage() {
     async function getShopProducts() {
         return (await databases.listDocuments(

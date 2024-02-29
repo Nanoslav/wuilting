@@ -1,5 +1,10 @@
 import React from 'react';
 
+export const metadata = {
+    title: 'Privacy Policy',
+    description: 'Our privacy policy.'
+}
+
 const Page = () => (
 
     <div className="relative flex flex-col justify-center h-screen">

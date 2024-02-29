@@ -1,7 +1,9 @@
-"use client"
-
 import Image from 'next/image';
 
+export const metadata = {
+    title: 'About us',
+    description: 'Meet the team behind Wuilting',
+}
 
 export default function About() {
     return (
