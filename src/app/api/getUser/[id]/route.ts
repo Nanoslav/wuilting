@@ -1,4 +1,5 @@
 import {database, databases} from "@/app/lib/appwrite-server";
+import {NextApiRequest} from "next";
 const getUser = async (id: string) => {
     if(!database) return null;
     try {
@@ -15,8 +16,7 @@ const getUser = async (id: string) => {
     }
 };
 
-export async function GET(context: {params: {id: string}}) {
-
+export async function GET(req: NextApiRequest, context: {params: {id: string}}, res: Response) {
     try {
         const id = context.params.id
 

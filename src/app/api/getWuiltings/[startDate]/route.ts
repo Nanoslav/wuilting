@@ -1,6 +1,7 @@
 import {databases} from "@/app/lib/appwrite-server";
 import WuiltingObject from "@/app/utils/interfaces/Wuilting";
 import {Query} from "node-appwrite";
+import {NextApiRequest} from "next";
 
 const fetchData = async (startDate: string) => {
 
@@ -34,8 +35,7 @@ const fetchData = async (startDate: string) => {
     return documents.documents as unknown as WuiltingObject[];
 }
 
-export async function GET(context: {params: {startDate: string}}) {
-
+export async function GET(req: NextApiRequest, context: {params: {startDate: string}}, res: Response) {
     try {
         const startDate = context.params.startDate
 

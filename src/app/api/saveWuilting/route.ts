@@ -32,7 +32,7 @@ const saveWuilting = async ({ word, words, author, date, isSaved } : { word: str
     }
 };
 
-export async function POST(req: Request) {
+export async function POST(req: Request, res: NextApiResponse) {
     try {
         const reqRes = await req.json()
         let { word, words, jwt, author, date, isSaved } = reqRes

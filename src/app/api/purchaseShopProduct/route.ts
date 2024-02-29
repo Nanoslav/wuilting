@@ -1,5 +1,6 @@
 import {client as clientJWT, account as accountJWT, databases} from "@/app/lib/appwrite-jwt";
 import {UserDBObject} from "@/app/utils/interfaces/User";
+import {NextApiResponse} from "next";
 
 
 const purchaseShopProduct = async (userId: string, productId: string) => {
@@ -26,8 +27,7 @@ const purchaseShopProduct = async (userId: string, productId: string) => {
     }
 };
 
-export async function POST(req: Request) {
-    try {
+export async function POST(req: Request, res: NextApiResponse) {    try {
         const requestResponse = await req.json()
         let {jwt, productId} = requestResponse
 
