@@ -1,3 +1,5 @@
+import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
+
 export interface UserRawObject {
     $id: string;
     $createdAt: string;
@@ -25,7 +27,7 @@ export interface UserDBObject {
     $createdAt: string;
     $updatedAt: string;
     $permissions: string[];
-    purchasedProducts: any[]; // TODO: Define this type as Product[]
+    purchasedProducts: ShopProductItem[];
     $databaseId: string;
     $collectionId: string;
 }
