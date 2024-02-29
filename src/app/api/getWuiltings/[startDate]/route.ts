@@ -11,6 +11,19 @@ const fetchData = async (startDate: string) => {
     const start = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
     const end = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 23, 59, 59).toISOString();
 
+    const historyDocuments = await databases.listDocuments(
+        "wuilting",
+        "wuilting_history",
+        [
+            Query.between("date", start, end),
+            Query.limit(1),
+        ],
+    );
+
+    if(historyDocuments.documents.length > 0) {
+        return historyDocuments.documents as unknown as WuiltingObject[];
+    }
+
     const documents = await databases.listDocuments(
         "wuilting",
         "wuilting",
@@ -19,7 +32,7 @@ const fetchData = async (startDate: string) => {
             Query.limit(1000),
         ],
     );
-    return documents.documents as WuiltingObject[];
+    return documents.documents as unknown as WuiltingObject[];
 }
 
 export async function GET(req: NextApiRequest, context: {params: {startDate: string}}, res: Response) {
