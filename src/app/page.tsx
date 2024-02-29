@@ -10,7 +10,7 @@ export default async function Home() {
 
     return (
       <main className={'w-full flex justify-center items-center h-9.5/10'} >
-          <div className={'bg-base-100 rounded-md flex flex-col gap-[1dvw] p-0.25/10 z-10 h-2/3 w-4/10'}>
+          <div className={'bg-base-100 rounded-md flex flex-col gap-[1dvw] p-0.25/10 z-10 h-4/5 w-4/10'}>
               <h2 className='text-center text-2.5 font-bold'>🌟 Wuilting ✨</h2>
               <div className='flex flex-row items-center justify-between w-full'>
                   <button className="btn text-1 w-3/10" title={'Leaderboard'}>
