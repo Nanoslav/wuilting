@@ -40,7 +40,7 @@ const WuiltingHistory = async ({params}: { params: { "date": string } }) => {
                         hour12: false
                     })}`}
                 </h3>
-                <div className='flex flex-col items-center justify-between w-full px-[2dvw] h-[40dvh] overflow-y-scroll'>
+                <div className='flex flex-col items-center justify-between w-full px-[2dvw] h-[40dvh] overflow-y-auto'>
                     <div>
                         {wuiltings.map((wuilting: WuiltingObject) => wuilting.word).join(' ')}
                     </div>
