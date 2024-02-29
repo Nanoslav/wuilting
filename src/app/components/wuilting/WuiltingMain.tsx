@@ -11,7 +11,7 @@ import {client, database, databases} from "@/app/lib/appwrite";
 import {ID, Query} from "appwrite";
 import {UserDBObject, UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
-export const WuiltingMain = () => {
+export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) => {
 
     const { loggedInUser } = useUserContext();
     const loggedInUserRef = useRef<UserObject | "none">(loggedInUser);
@@ -21,7 +21,6 @@ export const WuiltingMain = () => {
 
     const [wuiltings, setWuiltings] = useState<WuiltingObject[]>([]);
     const wuiltingsRef = useRef<WuiltingObject[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
 
     const updateWuiltings = (document: WuiltingObject) => {
         const newWuiltings = [document, ...wuiltingsRef.current]
@@ -43,15 +42,11 @@ export const WuiltingMain = () => {
     };
 
     useEffect(() => {
-        const fetchWuiltings = async () => {
-            const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
-            if(fetchedWuiltings){
-                setWuiltings(fetchedWuiltings.documents);
-                wuiltingsRef.current = fetchedWuiltings.documents
-            }
-            setLoading(false)
+
+        if(fetchedWuiltings){
+            setWuiltings(fetchedWuiltings.documents);
+            wuiltingsRef.current = fetchedWuiltings.documents
         }
-        fetchWuiltings();
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
             const res: any = response.payload
@@ -110,29 +105,19 @@ export const WuiltingMain = () => {
         }
     }
 
-    console.log(loggedInUser, loading)
-
     return (
         <div className='w-full h-full flex flex-col justify-center items-center text-center'>
             <div className="card w-full bg-base-200 shadow-xl">
                 <div className="card-body">
                     <h2 className="card-title text-1.5">Last words...</h2>
-                    {(loggedInUser === 'pending' || loading ? (
-                        <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
-                            {Array.from({ length: 5 }).map((_, index) => (
-                                <div key={index} className="skeleton w-full h-[1.25dvw] m-[0.5dvw]"></div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
-                            {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}
-                            {wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
-                                return (
-                                    <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-1.25`}>{wuilting.word}</span>
-                                )
-                            }, [])}
-                        </div>
-                    ))}
+                    <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
+                        {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}
+                        {wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
+                            return (
+                                <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-1.25`}>{wuilting.word}</span>
+                            )
+                        }, [])}
+                    </div>
 
                     <form className="card-actions w-full" onSubmit={submitWuilting}>
                         <input type="text text-1.25" placeholder="🔥 Next word?"

@@ -1,8 +1,12 @@
 import React from "react";
 import WuiltingMain from "@/app/components/wuilting/WuiltingMain";
 import Link from "next/link";
+import {database, databases} from "@/app/lib/appwrite";
+import {Query} from "appwrite";
 
-export default function Home() {
+export default async function Home() {
+
+    const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
 
     return (
       <main className={'w-full h-full flex justify-center items-center'} >
@@ -16,7 +20,7 @@ export default function Home() {
                   <Link href={"/history"} title={"History"} className="btn text-1 w-3/10">📜 History</Link>
               </div>
 
-              <WuiltingMain />
+              <WuiltingMain fetchedWuiltings={fetchedWuiltings} />
 
           </div>
       </main>

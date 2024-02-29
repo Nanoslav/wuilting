@@ -45,7 +45,7 @@ export const Navbar = () => {
                         {menuItems}
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl" title={'Wuilting'}>Wuilting</a>
+                <Link href={'/'} className="btn btn-ghost text-xl" title={'Wuilting'}>Wuilting</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">

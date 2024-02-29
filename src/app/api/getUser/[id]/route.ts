@@ -16,7 +16,7 @@ const getUser = async (id: string) => {
     }
 };
 
-export async function GET(req: NextApiRequest, context: {params: {id: string}}, res: Response) {
+export async function GET(context: {params: {id: string}}) {
 
     try {
         const id = context.params.id
