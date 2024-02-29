@@ -13,13 +13,9 @@ export default async ({ req, res, log, error }) => {
   if (req.method === 'POST') {
     try {const newUser = req.body;
 
-      const authID = newUser.$id;
+      const authID = newUser.userId;
 
-      const usersList = await users.list();
-      console.log("AuthID", authID)
-      console.log("USERS", usersList)
       const user = await users.get(authID);
-      console.log("USER", user)
 
       await database.createDocument(
           'wuilting',
