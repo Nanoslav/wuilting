@@ -16,7 +16,7 @@ const purchaseShopProduct = async (userId: string, productId: string) => {
         if (userMoney < productDB.cost) {
             return 'Not enough money to purchase the product.'
         }
-        
+
         const purchasedProducts = userDB.purchasedProducts || []
         const updatedProducts = [...purchasedProducts, productId]
 

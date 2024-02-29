@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import {UserDBObject, UserObject} from "@/app/utils/interfaces/User";
+import {account, client, database} from "@/app/lib/appwrite";
 
 interface UserContextProps {
     children: ReactNode;
@@ -59,6 +60,10 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
         }
     };
 
+    const updateUser = async (res: UserDBObject) => {
+        const authAccount = await account.get()
+        setLoggedInUser({...authAccount, ...res});
+    }
 
     useEffect(() => {
         try {
@@ -66,6 +71,17 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
         } catch (error) {
             console.error('Error fetching user data:', error)
         }
+
+        const unsubscribe = client.subscribe(`databases.${database}.collections.users.documents`, response => {
+            const res: any = response.payload;
+            if (loggedInUser !== "pending" && loggedInUser && loggedInUser.$id && res.$id === loggedInUser.$id) {
+                updateUser(res);
+            }
+        });
+
+        return () => {
+            unsubscribe();
+        };
     }, [loggedInUser]);
 
     return (
