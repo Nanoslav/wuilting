@@ -16,7 +16,7 @@ export default function Logout() {
             await account.deleteSession("current");
         } finally {
             setLoggedInUser(null)
-            router.push("/login");
+            router.push("/");
         }
     };
 

@@ -19,10 +19,10 @@ const AuthHandler = () => {
         } catch (error) {
             setLoggedInUser(null);
             console.info("AUTH HANDLER: NOT LOGGED IN.")
-            if (pathname !== '/login') {
-                console.info("AUTH HANDLER: REDIRECTING TO LOGIN.")
-                router.push('/login');
-            }
+            // if (pathname !== '/login') {
+            //     console.info("AUTH HANDLER: REDIRECTING TO LOGIN.")
+            //     router.push('/login');
+            // }
         }
     };
 

@@ -13,9 +13,9 @@ import {UserDBObject, UserObject} from "@/app/utils/interfaces/User";
 export const WuiltingMain = () => {
 
     const { loggedInUser } = useUserContext();
-    const loggedInUserRef = useRef<UserObject>(loggedInUser);
+    const loggedInUserRef = useRef<UserObject | "none">(loggedInUser);
 
-    const [isLastWuilter, setIsLastWuilter] = useState<boolean>(false);
+    const [isLastWuilter, setIsLastWuilter] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [wuiltings, setWuiltings] = useState<WuiltingObject[]>([]);
@@ -33,7 +33,12 @@ export const WuiltingMain = () => {
     }
 
     const checkLoggedInUser = (res: string) => {
-        return res && res !== loggedInUserRef.current.$id;
+        if(loggedInUser && res && loggedInUserRef.current !== 'none' && res !== loggedInUserRef.current?.$id){
+            setIsLastWuilter(true);
+        }
+        return false;
+        // TODO: check if this works as intended
+        // return res && res !== loggedInUserRef.current.$id;
     };
 
     useEffect(() => {
@@ -52,7 +57,6 @@ export const WuiltingMain = () => {
             const res: any = response.payload
             if(response.events.includes(`databases.${database}.collections.wuilting.documents.*.create`) && res && checkLoggedInUser(res?.author?.$id)){
                 updateWuiltings(res);
-                setIsLastWuilter(false);
             }
         });
 
@@ -63,13 +67,20 @@ export const WuiltingMain = () => {
     }, []);
 
     useEffect(() => {
-        loggedInUserRef.current = loggedInUser;
-        if(wuiltingsRef.current[0] && wuiltingsRef.current[0].author.$id === loggedInUser.$id){
+        if(loggedInUser){
+            loggedInUserRef.current = loggedInUser;
+            if(wuiltingsRef.current[0] && wuiltingsRef.current[0].author.$id === loggedInUser.$id){
+                setIsLastWuilter(true);
+            } else {
+                setIsLastWuilter(false);
+            }
+        } else {
             setIsLastWuilter(true);
+            loggedInUserRef.current = 'none'
         }
     }, [loggedInUser]);
 
-    if(!loggedInUser || loggedInUser === 'pending' || !loggedInUserRef.current){
+    if(loggedInUser === 'pending' || !loggedInUserRef.current){
         return <Spinner />
     }
 
@@ -110,7 +121,7 @@ export const WuiltingMain = () => {
                     <h2 className="card-title text-1.5">Last words...</h2>
                     <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
                         {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}
-                        {(!loggedInUser || loading) ?
+                        {(loggedInUser === 'pending' || loading) ?
                                 <Spinner />
                             : (
                                 wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
