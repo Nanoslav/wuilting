@@ -1,6 +1,4 @@
 import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
-import {databases} from "@/app/lib/appwrite";
-import {ID} from "appwrite";
 import React from "react";
 import {ProductCardButton} from "@/app/components/shop/ProductCardButton";
 

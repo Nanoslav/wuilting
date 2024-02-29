@@ -1,9 +1,7 @@
 "use client"
 
 import {account} from "@/app/lib/appwrite";
-import {useEffect} from "react";
-import {useRouter} from "next/navigation";
-import {Account, Models} from "appwrite";
+import {useRouter} from "next/navigation"
 import Spinner from "@/app/components/Spinner";
 import {useUserContext} from "@/app/utils/UserContext";
 

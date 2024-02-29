@@ -5,8 +5,7 @@ import {faBan, faPenToSquare, faSave} from "@fortawesome/free-solid-svg-icons";
 import React, {RefObject, useState} from "react";
 import {useUserContext} from "@/app/utils/UserContext";
 import sendToast from "@/app/utils/sendToast";
-import {account, database, databases} from "@/app/lib/appwrite";
-import {ID, Permission, Role} from "appwrite";
+import {account} from "@/app/lib/appwrite";
 import {useRouter} from "next/navigation";
 
 export const WuiltingAdminEdit = ({ wuiltingDate, isSaved, editable, setEditable, wordsRef } : { wuiltingDate: Date, isSaved: string | null, editable: boolean, setEditable: (value: boolean) => void, wordsRef: RefObject<HTMLDivElement> }) => {

@@ -1,16 +1,10 @@
 "use client"
 
-import {Account} from "appwrite";
 import {account, client} from "@/app/lib/appwrite";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faDiscord, faFacebook, faGithub, faGoogle} from '@fortawesome/free-brands-svg-icons'
-import { useRouter } from 'next/navigation'
-import {useEffect} from "react";
-import {useUserContext} from "@/app/utils/UserContext";
-
 
 export default function Login() {
-    const router = useRouter();
 
     const Login = (provider: string) => {
         try {

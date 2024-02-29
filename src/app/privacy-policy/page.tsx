@@ -1,6 +1,4 @@
 import React from 'react';
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faDiscord, faFacebook, faGoogle} from "@fortawesome/free-brands-svg-icons";
 
 const Page = () => (
 

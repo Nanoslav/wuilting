@@ -1,16 +1,12 @@
 "use client"
 
 import React, {useEffect} from 'react';
-import {usePathname, useRouter} from "next/navigation";
 import {useUserContext} from "@/app/utils/UserContext";
 import {account} from "@/app/lib/appwrite";
 
 const AuthHandler = () => {
 
-    const pathname = usePathname();
-    const router = useRouter();
-
-    const { setLoggedInUser, loggedInUser } = useUserContext();
+    const { setLoggedInUser} = useUserContext();
 
     const fetchUser = async () => {
         try {
@@ -29,18 +25,6 @@ const AuthHandler = () => {
     useEffect(() => {
         fetchUser();
     }, []);
-
-    const Login = () => {
-        try {
-            const response = account.createOAuth2Session(
-                "discord",
-                process.env.NEXT_PUBLIC_HOSTNAME,
-                process.env.NEXT_PUBLIC_HOSTNAME + "/login"
-            );
-        } catch (error) {
-            console.error("Failed to create OAuth session:", error);
-        }
-    };
 
     return (
         <></>

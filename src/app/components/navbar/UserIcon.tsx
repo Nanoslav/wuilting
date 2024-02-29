@@ -1,10 +1,8 @@
 "use client"
 
-import React, {useEffect, useState} from 'react';
-import Tippy from "@tippyjs/react";
-import AnchorLink from "@/app/components/form/AnchorLink";
+import React from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faRightFromBracket, faUserTie} from "@fortawesome/free-solid-svg-icons";
+import {faUserTie} from "@fortawesome/free-solid-svg-icons";
 import {useUserContext} from "@/app/utils/UserContext";
 import {avatars} from "@/app/lib/appwrite";
 import Link from "next/link";

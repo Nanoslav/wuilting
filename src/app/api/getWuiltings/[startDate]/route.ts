@@ -1,4 +1,3 @@
-import {NextApiRequest} from 'next';
 import {databases} from "@/app/lib/appwrite-server";
 import WuiltingObject from "@/app/utils/interfaces/Wuilting";
 import {Query} from "node-appwrite";
@@ -35,7 +34,7 @@ const fetchData = async (startDate: string) => {
     return documents.documents as unknown as WuiltingObject[];
 }
 
-export async function GET(req: NextApiRequest, context: {params: {startDate: string}}, res: Response) {
+export async function GET(context: {params: {startDate: string}}) {
 
     try {
         const startDate = context.params.startDate
@@ -54,4 +53,4 @@ export async function GET(req: NextApiRequest, context: {params: {startDate: str
     } catch (error) {
         return Response.json({ error: 'Internal Server Error' }, { status: 500 })
     }
-};
+}

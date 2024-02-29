@@ -1,7 +1,6 @@
-import {NextApiRequest, NextApiResponse} from 'next';
+import {NextApiResponse} from 'next';
 import {ID, Permission, Role} from 'node-appwrite';
 import {client, database, databases} from "@/app/lib/appwrite-jwt";
-import {Query} from "appwrite";
 
 const saveWuilting = async ({ word, words, author, date, isSaved } : { word: string, words: number, author: string, date: Date, isSaved: string }) => {
     try {
@@ -33,7 +32,7 @@ const saveWuilting = async ({ word, words, author, date, isSaved } : { word: str
     }
 };
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: Request) {
     try {
         const reqRes = await req.json()
         let { word, words, jwt, author, date, isSaved } = reqRes

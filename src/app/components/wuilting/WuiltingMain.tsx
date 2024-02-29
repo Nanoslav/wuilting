@@ -6,10 +6,9 @@ export const revalidate = 0
 
 import React, {useEffect, useRef, useState} from 'react';
 import {useUserContext} from "@/app/utils/UserContext";
-import Spinner from "@/app/components/Spinner";
 import {client, database, databases} from "@/app/lib/appwrite";
 import {ID, Query} from "appwrite";
-import {UserDBObject, UserObject} from "@/app/utils/interfaces/User";
+import {UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
 export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) => {
 

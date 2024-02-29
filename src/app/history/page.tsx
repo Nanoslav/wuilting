@@ -1,7 +1,6 @@
 import React from 'react';
 import Calendar from 'react-calendar'
 import {FormCalendar} from "@/app/components/form/Calendar";
-import {redirect} from "next/navigation";
 
 const History = () => {
 

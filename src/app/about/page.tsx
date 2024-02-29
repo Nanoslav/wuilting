@@ -1,12 +1,9 @@
 "use client"
 
-import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 
 
 export default function About() {
-    const router = useRouter();
-
     return (
         <div className="relative flex flex-col justify-center overflow-hidden mt-5">
             <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-lg">

@@ -3,7 +3,6 @@
 import React, {useEffect, useMemo, useState} from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import type {Container, ISourceOptions} from "@tsparticles/engine";
-import { loadFull } from "tsparticles";
 import {loadBasic} from "@tsparticles/basic";
 
 const ParticleBackground = ({children} : {children: React.ReactNode}) => {

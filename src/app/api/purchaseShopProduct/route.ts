@@ -1,9 +1,5 @@
-import React from 'react';
-import {NextApiResponse} from "next";
-import {client} from "@/app/lib/appwrite-server";
 import {client as clientJWT, account as accountJWT, databases} from "@/app/lib/appwrite-jwt";
 import {UserDBObject} from "@/app/utils/interfaces/User";
-import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
 
 
 const purchaseShopProduct = async (userId: string, productId: string) => {
@@ -30,7 +26,7 @@ const purchaseShopProduct = async (userId: string, productId: string) => {
     }
 };
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: Request) {
     try {
         const requestResponse = await req.json()
         let {jwt, productId} = requestResponse

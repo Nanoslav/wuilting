@@ -1,7 +1,7 @@
 "use client"
 
-import React, {useEffect, useState} from "react";
-import {account, databases} from "@/app/lib/appwrite";
+import React, {useState} from "react";
+import {account} from "@/app/lib/appwrite";
 import {useUserContext} from "@/app/utils/UserContext";
 import {UserData} from "@/app/utils/UserData";
 import sendToast from "@/app/utils/sendToast";

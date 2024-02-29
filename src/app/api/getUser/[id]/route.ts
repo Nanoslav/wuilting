@@ -1,4 +1,3 @@
-import { NextApiRequest } from 'next';
 import {database, databases} from "@/app/lib/appwrite-server";
 const getUser = async (id: string) => {
     if(!database) return null;
