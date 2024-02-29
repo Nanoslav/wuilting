@@ -1,10 +1,5 @@
 import React from 'react';
 import WuiltingObject from "@/app/utils/interfaces/Wuilting";
-import Link from "next/link";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPenToSquare} from "@fortawesome/free-solid-svg-icons";
-import {WuiltingAdminEdit} from "@/app/components/wuilting/WuiltingAdminEdit";
-import {WuiltingHistoryWords} from "@/app/components/wuilting/WuiltingHistoryWords";
 import {WuiltingHistoryMain} from "@/app/components/wuilting/WuiltingHistoryMain";
 
 export const revalidate = 0;
