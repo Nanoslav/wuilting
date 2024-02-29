@@ -11,10 +11,10 @@ export function InnerLayout({ children }: { children: React.ReactNode }) {
     return (
         <UserContextProvider>
             <AuthHandler />
-            <ParticleBackground>
+            {/*<ParticleBackground>*/}
                 {children}
                 <ToastContainer />
-            </ParticleBackground>
+            {/*</ParticleBackground>*/}
         </UserContextProvider>
     )
 }
