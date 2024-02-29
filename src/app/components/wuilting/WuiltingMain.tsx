@@ -108,22 +108,22 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
         <div className='w-full h-full flex flex-col justify-center items-center text-center'>
             <div className="card w-full bg-base-200 shadow-xl h-full">
                 <div className="card-body">
-                    <h2 className="card-title text-3 lg:text-1.5">Last words...</h2>
+                    <h2 className="card-title text-3 sm:text-2.5 md:text-2 lg:text-1.5">Last words...</h2>
                     <div className='flex flex-col justify-center items-center text-center gap-0.25/10'>
                         {(wuiltings && wuiltings.length === 5) && <span className='opacity-10 text-1.25'>...</span>}
                         {wuiltings.toReversed().map((wuilting: WuiltingObject, index: number) => {
                             return (
-                                <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-6 lg:text-1.25`}>{wuilting.word}</span>
+                                <span key={index} className={`opacity-${((index + 1) * 20).toString()} text-6 sm:text-2.5 md:text-2 lg:text-1.25`}>{wuilting.word}</span>
                             )
                         }, [])}
                     </div>
 
                     <form className="card-actions w-full" onSubmit={submitWuilting}>
-                        <input type="text text-6 lg:text-1.25" placeholder="🔥 Next word?"
+                        <input type="text text-6 sm:text-3 md:text-2 lg:text-1.25" placeholder="🔥 Next word?"
                                className="input input-bordered w-full" ref={inputRef} disabled={isLastWuilter} autoFocus />
                         <button type="submit" className="invisible w-0 h-0" disabled={isLastWuilter} title={'Submit'}>Submit</button>
                         {!loggedInUser && (
-                            <div className="opacity-80 text-5 lg:text-1"><AnchorLink href={'/login'} title={'Log in'} className='text-teal-500 hover:text-cyan-700 text-5 lg:text-1' /> to post the next word!</div>
+                            <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1"><AnchorLink href={'/login'} title={'Log in'} className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1' /> to post the next word!</div>
                         )}
                     </form>
                 </div>

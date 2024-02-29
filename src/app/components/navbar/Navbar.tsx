@@ -41,11 +41,11 @@ export const Navbar = () => {
                             />
                         </svg>
                     </div>
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52">
                         {menuItems}
                     </ul>
                 </div>
-                <Link href={'/'} className="btn btn-ghost text-5 lg:text-1.25" title={'Wuilting'}>Wuilting</Link>
+                <Link href={'/'} className="btn btn-ghost text-5 sm:text-3 md:text-2 lg:text-1.25" title={'Wuilting'}>Wuilting</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
