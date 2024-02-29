@@ -20,7 +20,7 @@ const UserIcon = () => {
     return (
         <div className="flex flex-row justify-center items-center gap-[0.5dvw]">
             <div className="dropdown dropdown-end">
-                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" title={loggedInUser.name}>
                     <div className="w-10 rounded-full">
                         <img alt={`${loggedInUser.name}`}
                              src={`${avatars.getInitials()}`}/>
