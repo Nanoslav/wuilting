@@ -5,8 +5,6 @@ import React from "react";
 import ProductCard from "@/app/components/shop/ProductCard";
 
 export default async function ShopPage() {
-
-
     async function getShopProducts() {
         return (await databases.listDocuments(
             "wuilting",
@@ -22,14 +20,6 @@ export default async function ShopPage() {
             {title, description, image, is_new, cost}
         );
     }
-
-    /*await createShopProduct({
-        title: "Opica",
-        description: "monkey",
-        image: new URL("https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"),
-        is_new: true,
-        cost: 500
-    })*/
 
     const products: any = await getShopProducts();
 

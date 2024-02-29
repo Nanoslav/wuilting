@@ -4,7 +4,7 @@ import {ID} from "appwrite";
 import React from "react";
 import {ProductCardButton} from "@/app/components/shop/ProductCardButton";
 
-export default function ProductCard({title, description, image, is_new, cost, $id}: ShopProductItem) {
+export default function ProductCard({$id, title, description, image, is_new, cost}: ShopProductItem) {
     return (
         <div className="card w-96 bg-base-200 shadow-2xl">
             <figure>

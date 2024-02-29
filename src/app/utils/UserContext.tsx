@@ -3,9 +3,8 @@
 import { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import login from '@/app/utils/login';
-import {UserRaw} from "@/app/utils/interfaces/UserRaw";
 import {Models} from "appwrite";
-import {UserObject} from "@/app/utils/interfaces/User";
+import {UserDBObject, UserObject, UserRawObject} from "@/app/utils/interfaces/User";
 
 interface UserContextProps {
     children: ReactNode;
@@ -13,7 +12,7 @@ interface UserContextProps {
 
 interface UserContextValue {
     loggedInUser: any;
-    setLoggedInUser: React.Dispatch<React.SetStateAction<UserRaw | null | "pending">>;
+    setLoggedInUser: React.Dispatch<React.SetStateAction<UserRawObject | null | "pending">>;
 }
 
 const UserContext = createContext<UserContextValue | undefined>(undefined);
@@ -27,34 +26,44 @@ export const useUserContext = () => {
 };
 
 export const UserContextProvider = ({ children }: UserContextProps) => {
-    const [loggedInUser, setLoggedInUser] = useState<any | null | "pending">("pending");
+    const [loggedInUser, setLoggedInUser] = useState<UserRawObject | UserObject | null | "pending">("pending");
 
-    const addUserDBData = async () => {
-        if(!loggedInUser || loggedInUser === "pending" || !loggedInUser.$id) {
-            return
+    const addUserDBData = async (retryCount =  0) => {
+        if (!loggedInUser || loggedInUser === "pending" || !loggedInUser.$id) {
+            return;
         }
 
-        console.log("LOGGED IN USER RAW:", loggedInUser)
+        try {
+            const response = await fetch(`/api/getUser/${loggedInUser.$id}`, {
+                method: 'GET',
+            });
 
-        const response = await fetch(`/api/getUser/${loggedInUser.$id}`, {
-            method: 'GET',
-        });
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
+            }
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch user data');
+            const data: UserDBObject = await response.json();
+
+            const newLoggedInUser: any = loggedInUser;
+            newLoggedInUser.avatar = data.avatar;
+            newLoggedInUser.money = data.money;
+            // TODO: add more fields here
+            newLoggedInUser.purchasedProducts = data.purchasedProducts;
+            setLoggedInUser(newLoggedInUser);
+
+            console.log("FINISHED LOGGED IN USER:", loggedInUser);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+            if (retryCount <  2) {
+                setTimeout(() => {
+                    addUserDBData(retryCount++);
+                },  1000);
+            } else {
+                setLoggedInUser(null);
+            }
         }
+    };
 
-        const data: any = await response.json()
-
-        console.log("LOGGED IN USER DB:", data.user)
-
-        const newLoggedInUser = loggedInUser
-        newLoggedInUser.avatar = data.user.avatar
-        newLoggedInUser.purchasedProducts = data.user.purchasedProducts
-        setLoggedInUser(newLoggedInUser)
-
-        console.log("FINISHED LOGGED IN USER:", loggedInUser)
-    }
 
     useEffect(() => {
         try {

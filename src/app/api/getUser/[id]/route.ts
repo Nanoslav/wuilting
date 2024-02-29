@@ -28,7 +28,7 @@ export async function GET(req: NextApiRequest, context: {params: {id: string}}, 
         const user = await getUser(id);
 
         if (user) {
-            return Response.json({ user })
+            return Response.json(user)
         } else {
             return Response.json({ error: 'User not found' }, { status: 404 })
         }

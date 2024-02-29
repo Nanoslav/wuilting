@@ -3,10 +3,12 @@
 import React from "react";
 import {databases} from "@/app/lib/appwrite";
 import {useUserContext} from "@/app/utils/UserContext";
+import {UserData} from "@/app/utils/UserData";
 
 export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
 
     const { loggedInUser, setLoggedInUser } = useUserContext();
+    const {get, set} = UserData()
 
     async function purchaseShopProduct() {
         try {
@@ -19,9 +21,11 @@ export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
                 purchasedProducts: updatedProducts
             });
 
-            const newLoggedInUser = loggedInUser;
-            newLoggedInUser.purchasedProducts = updatedProducts;
-            setLoggedInUser(newLoggedInUser);
+            //const newLoggedInUser = loggedInUser;
+            //newLoggedInUser.purchasedProducts = updatedProducts;
+            //setLoggedInUser(newLoggedInUser);
+
+            await set("purchasedProducts", updatedProducts)
 
         } catch (e) {
             console.log(e)
