@@ -12,7 +12,7 @@ interface AnchorLinkProps {
 
 const AnchorLink: React.FC<AnchorLinkProps> = ({ href, title, className, icon = "" }) => {
     return (
-        <Link href={href} className={`text-1 dark:text-light dark:hover:text-light-hover text-dark hover:text-dark-hover transition-all ${className}`} title={title}>{icon ?? ""} {title}</Link>
+        <Link href={href} className={`text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1 transition-all ${className}`} title={title}>{icon ?? ""} {title}</Link>
     );
 };
 

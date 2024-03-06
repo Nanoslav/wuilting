@@ -4,6 +4,9 @@ import Link from "next/link";
 import {database, databases} from "@/app/lib/appwrite";
 import {Query} from "appwrite";
 
+
+export const revalidate = 0
+
 export default async function Home() {
 
     const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
