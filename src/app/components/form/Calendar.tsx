@@ -14,6 +14,6 @@ export const FormCalendar = () => {
     const [value, onChange] = useState<Value>(new Date());
 
     return (
-        <Calendar onChange={onChange} value={value} onClickDay={(value: Date) => router.push(`/history/${encodeURIComponent(value.toISOString())}`)} />
+        <Calendar onChange={onChange} value={value} onClickDay={(value: Date) => router.push(`/history/${encodeURIComponent(value.toISOString())}`)} maxDate={new Date((new Date()).getTime() - 24 * 60 * 60 * 1000)} />
     );
 };

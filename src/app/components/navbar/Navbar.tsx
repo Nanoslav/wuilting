@@ -1,6 +1,9 @@
 import React from "react";
 import UserIcon from "@/app/components/navbar/UserIcon";
 import Link from "next/link";
+import {faUserTie} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faGithub} from "@fortawesome/free-brands-svg-icons";
 
 export const Navbar = () => {
 
@@ -10,10 +13,10 @@ export const Navbar = () => {
                 <Link href="/" title={'Home'}>Home</Link>
             </li>
             <li>
-                <Link href="/shop" title={'Shop'}>Shop</Link>
+                <Link href="/about" title={'About wuilting'}>What is this?</Link>
             </li>
             <li>
-                <Link href="/about" title={'About us'}>About us</Link>
+                <Link href="/shop" title={'Shop'}>Shop</Link>
             </li>
             <li>
                 <Link href="/privacy-policy" title={'Privacy Policy'}>Privacy Policy</Link>
@@ -41,11 +44,16 @@ export const Navbar = () => {
                             />
                         </svg>
                     </div>
-                    <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52">
+                    <ul tabIndex={0}
+                        className="menu menu-sm dropdown-content mt-3 z-50 p-2 shadow bg-base-100 rounded-box w-52">
                         {menuItems}
                     </ul>
                 </div>
-                <Link href={'/'} className="btn btn-ghost text-5 sm:text-3 md:text-2 lg:text-1.25" title={'Wuilting'}>Wuilting</Link>
+                <a className="btn btn-ghost btn-circle" title={'GitHub'} href={'https://github.com/Nanoslav/wuilting/'} target={'_blank'}>
+                    <FontAwesomeIcon className='h-5 w-5' icon={faGithub} />
+                </a>
+                <Link href={'/'} className="btn btn-ghost text-5 sm:text-3 md:text-2 lg:text-1.25"
+                      title={'Wuilting'}>Wuilting</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
@@ -53,7 +61,7 @@ export const Navbar = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <UserIcon />
+                <UserIcon/>
             </div>
         </div>
     );
