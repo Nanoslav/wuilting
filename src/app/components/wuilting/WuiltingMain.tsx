@@ -10,10 +10,12 @@ import {client, database, databases} from "@/app/lib/appwrite";
 import {ID, Query} from "appwrite";
 import {UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
+import {useRouter} from "next/navigation";
 export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) => {
 
     const { loggedInUser } = useUserContext();
     const loggedInUserRef = useRef<UserObject | "none">(loggedInUser);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const [isLastWuilter, setIsLastWuilter] = useState<boolean>(true);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -40,12 +42,23 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
         return true;
     };
 
+    const fetchData = async () => {
+
+        const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
+        if(fetchedWuiltings){
+            setWuiltings(fetchedWuiltings.documents);
+            wuiltingsRef.current = fetchedWuiltings.documents
+        }
+
+    }
+
     useEffect(() => {
 
         if(fetchedWuiltings){
             setWuiltings(fetchedWuiltings.documents);
             wuiltingsRef.current = fetchedWuiltings.documents
         }
+        fetchData()
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
             const res: any = response.payload
