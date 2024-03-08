@@ -7,7 +7,7 @@ export const revalidate = 0
 import React, {KeyboardEventHandler, useEffect, useRef, useState} from 'react';
 import {useUserContext} from "@/app/utils/UserContext";
 import {client, database, databases} from "@/app/lib/appwrite";
-import {ID, Query} from "appwrite";
+import {ID, Query, Permission, Role} from "appwrite";
 import {UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
 import {useRouter} from "next/navigation";
@@ -113,7 +113,13 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
             await databases.createDocument(database, 'wuilting', ID.unique(), {
                 word: oneWord,
                 author: loggedInUser.$id
-            });
+            },
+                [
+                    Permission.read(Role.any()),
+                    Permission.update(Role.user(loggedInUser.$id)),
+                    Permission.delete(Role.user(loggedInUser.$id)),
+                ]
+            );
         }
     }
 
