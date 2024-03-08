@@ -11,7 +11,7 @@ import {ID, Query} from "appwrite";
 import {UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
 import {useRouter} from "next/navigation";
-export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) => {
+export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: WuiltingObject[] }) => {
 
     const { loggedInUser } = useUserContext();
     const loggedInUserRef = useRef<UserObject | "none">(loggedInUser);
@@ -55,8 +55,8 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
     useEffect(() => {
 
         if(fetchedWuiltings){
-            setWuiltings(fetchedWuiltings.documents);
-            wuiltingsRef.current = fetchedWuiltings.documents
+            setWuiltings(fetchedWuiltings);
+            wuiltingsRef.current = fetchedWuiltings
         }
         fetchData()
 
