@@ -153,18 +153,20 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
                         <button type="submit" className="invisible w-0 h-0" disabled={isLastWuilter}
                                 title={'Submit'}>Submit
                         </button>
-                        <div className='flex flex-col w-full'>
-                            {loggedInUser && (
+                        {(!loggedInUser || loggedInUser === 'pending') && (
+                            <div className='flex flex-col w-full'>
                                 <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1"><AnchorLink
                                     href={'/login'} title={'Log in'}
                                     className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1'/> to
-                                    post the next word!</div>
-                            )}
-                            <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1">What is <AnchorLink
-                                href={'/about'} title={'Wuilting'}
-                                className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1'/>?
+                                    post the next word!
+                                </div>
+                                <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1">What
+                                    is <AnchorLink
+                                        href={'/about'} title={'Wuilting'}
+                                        className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1'/>?
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </form>
                 </div>
             </div>
