@@ -4,10 +4,10 @@ import WuiltingObject from "@/app/utils/interfaces/Wuilting";
 
 export const revalidate = 0
 
-import React, {KeyboardEventHandler, useEffect, useRef, useState} from 'react';
+import React, {FormEvent, KeyboardEventHandler, useEffect, useRef, useState} from 'react';
 import {useUserContext} from "@/app/utils/UserContext";
 import {client, database, databases} from "@/app/lib/appwrite";
-import {ID, Query, Permission, Role} from "appwrite";
+import {ID, Query, Permission, Role, RealtimeResponseEvent, Models} from "appwrite";
 import {UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
 import {useRouter} from "next/navigation";
@@ -44,7 +44,7 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
 
     const fetchData = async () => {
 
-        const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
+        const fetchedWuiltings: Models.DocumentList<WuiltingObject> = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
         if(fetchedWuiltings){
             setWuiltings(fetchedWuiltings.documents);
             wuiltingsRef.current = fetchedWuiltings.documents
@@ -61,7 +61,7 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
         fetchData()
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
-            const res: any = response.payload
+            const res = response.payload as WuiltingObject;
             if(response.events.includes(`databases.${database}.collections.wuilting.documents.*.create`) && res && isUpdateNeeded(res?.author?.$id)){
                 updateWuiltings(res);
             }
@@ -87,7 +87,7 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
         }
     }, [loggedInUser]);
 
-    const submitWuilting = async (e: any) => {
+    const submitWuilting = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLastWuilter(true);
         const wuilting = inputRef.current?.value;
@@ -100,8 +100,8 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
             const newWuiltingObject: WuiltingObject = {
                 word: oneWord,
                 $id: 'newWuilting',
-                $createdAt: new Date(),
-                $updatedAt: new Date(),
+                $createdAt: new Date().toString(),
+                $updatedAt: new Date().toString(),
                 $permissions: [],
                 author: loggedInUser,
                 $databaseId: database,

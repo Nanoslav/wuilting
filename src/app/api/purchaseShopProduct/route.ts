@@ -1,12 +1,13 @@
 import {client as clientJWT, account as accountJWT, databases} from "@/app/lib/appwrite-jwt";
 import {UserDBObject} from "@/app/utils/interfaces/User";
 import {NextApiResponse} from "next";
+import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
 
 
 const purchaseShopProduct = async (userId: string, productId: string) => {
     try {
         const userDB: UserDBObject = await databases.getDocument("wuilting", "users", userId)
-        const productDB: any = await databases.getDocument("wuilting", "shop_products", productId)
+        const productDB: ShopProductItem = await databases.getDocument("wuilting", "shop_products", productId)
 
         const userMoney = userDB.money || 0
 

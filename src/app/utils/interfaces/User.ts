@@ -15,8 +15,6 @@ export interface UserRawObject {
     phoneVerification: boolean;
     prefs: Record<string, unknown>;
     accessedAt: string;
-    avatar: string;
-    purchasedProducts: ShopProductItem[];
 }
 
 export interface UserDBObject {
@@ -32,13 +30,9 @@ export interface UserDBObject {
     $collectionId: string;
 }
 
-
-export interface UserObject extends UserRawObject {
-    money: number;
-    $permissions: string[];
-    $databaseId: string;
-    $collectionId: string;
+export interface UserObject extends UserRawObject, UserDBObject {
 }
+
 
 export interface Users {
     users: UserObject[];

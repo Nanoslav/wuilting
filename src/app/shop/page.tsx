@@ -27,7 +27,7 @@ export default async function ShopPage() {
         );
     }
 
-    const products: any = await getShopProducts();
+    const products = await getShopProducts() as ShopProductItem[];
 
     return (
         <main className={'w-full flex justify-center items-center h-9.5/10'} >

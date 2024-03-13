@@ -3,6 +3,7 @@
 import React, {useEffect} from 'react';
 import {useUserContext} from "@/app/utils/UserContext";
 import {account} from "@/app/lib/appwrite";
+import {UserObject, UserRawObject} from "@/app/utils/interfaces/User";
 
 const AuthHandler = () => {
 
@@ -10,11 +11,16 @@ const AuthHandler = () => {
 
     const fetchUser = async () => {
         try {
-            const data: any = await account.get();
+            const rawData: UserRawObject = await account.get();
+            const data: UserObject = {...rawData} as UserObject;
+            data.avatar = '';
+            data.money = 0;
+            data.purchasedProducts = [];
+            data.$permissions = [];
             setLoggedInUser(data);
         } catch (error) {
             setLoggedInUser(null);
-            console.info("AUTH HANDLER: NOT LOGGED IN.")
+            console.info("AUTH HANDLER: NOT LOGGED IN.");
             // if (pathname !== '/login') {
             //     console.info("AUTH HANDLER: REDIRECTING TO LOGIN.")
             //     router.push('/login');
