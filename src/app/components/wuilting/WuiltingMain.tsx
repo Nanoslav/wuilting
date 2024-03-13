@@ -4,17 +4,17 @@ import WuiltingObject from "@/app/utils/interfaces/Wuilting";
 
 export const revalidate = 0
 
-import React, {KeyboardEventHandler, useEffect, useRef, useState} from 'react';
+import React, {FormEvent, KeyboardEventHandler, useEffect, useRef, useState} from 'react';
 import {useUserContext} from "@/app/utils/UserContext";
 import {client, database, databases} from "@/app/lib/appwrite";
-import {ID, Query} from "appwrite";
+import {ID, Query, Permission, Role, RealtimeResponseEvent, Models} from "appwrite";
 import {UserObject} from "@/app/utils/interfaces/User";
 import AnchorLink from "@/app/components/form/AnchorLink";
 import {useRouter} from "next/navigation";
-export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) => {
+export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: WuiltingObject[] }) => {
 
     const { loggedInUser } = useUserContext();
-    const loggedInUserRef = useRef<UserObject | "none">(loggedInUser);
+    const loggedInUserRef = useRef<UserObject | "none">("none");
     const [loading, setLoading] = useState<boolean>(true);
 
     const [isLastWuilter, setIsLastWuilter] = useState<boolean>(true);
@@ -43,9 +43,10 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
     };
 
     const fetchData = async () => {
-
-        const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
+        setIsLastWuilter(true);
+        const fetchedWuiltings: Models.DocumentList<WuiltingObject> = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
         if(fetchedWuiltings){
+            console.info("NEW WUILTINGS: ", fetchedWuiltings.documents)
             setWuiltings(fetchedWuiltings.documents);
             wuiltingsRef.current = fetchedWuiltings.documents
         }
@@ -54,14 +55,13 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
 
     useEffect(() => {
 
-        if(fetchedWuiltings){
-            setWuiltings(fetchedWuiltings.documents);
-            wuiltingsRef.current = fetchedWuiltings.documents
-        }
+        setWuiltings(fetchedWuiltings);
+        console.info("FIRST WUILTINGS: ", fetchedWuiltings)
+        wuiltingsRef.current = fetchedWuiltings
         fetchData()
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
-            const res: any = response.payload
+            const res = response.payload as WuiltingObject;
             if(response.events.includes(`databases.${database}.collections.wuilting.documents.*.create`) && res && isUpdateNeeded(res?.author?.$id)){
                 updateWuiltings(res);
             }
@@ -74,9 +74,10 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
     }, []);
 
     useEffect(() => {
-        if(loggedInUser){
+        setIsLastWuilter(true);
+        if(loggedInUser && loggedInUser !== 'pending'){
             loggedInUserRef.current = loggedInUser;
-            if(!wuiltingsRef.current[0] || loggedInUser === 'pending' || wuiltingsRef.current[0].author.$id === loggedInUser.$id){
+            if(!wuiltingsRef.current[0] || wuiltingsRef.current[0].author.$id === loggedInUser.$id){
                 setIsLastWuilter(true);
             } else {
                 setIsLastWuilter(false);
@@ -85,14 +86,14 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
             setIsLastWuilter(true);
             loggedInUserRef.current = 'none'
         }
-    }, [loggedInUser]);
+    }, [loggedInUser, wuiltings]);
 
-    const submitWuilting = async (e: any) => {
+    const submitWuilting = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLastWuilter(true);
         const wuilting = inputRef.current?.value;
         inputRef.current!.value = '';
-        if (wuilting && !isLastWuilter) {
+        if (wuilting && !isLastWuilter && loggedInUser && loggedInUser !== 'pending') {
             const oneWord = wuilting.split(' ')[0];
 
             inputRef.current!.value = '';
@@ -100,8 +101,8 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
             const newWuiltingObject: WuiltingObject = {
                 word: oneWord,
                 $id: 'newWuilting',
-                $createdAt: new Date(),
-                $updatedAt: new Date(),
+                $createdAt: new Date().toString(),
+                $updatedAt: new Date().toString(),
                 $permissions: [],
                 author: loggedInUser,
                 $databaseId: database,
@@ -113,7 +114,13 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
             await databases.createDocument(database, 'wuilting', ID.unique(), {
                 word: oneWord,
                 author: loggedInUser.$id
-            });
+            },
+                [
+                    Permission.read(Role.any()),
+                    Permission.update(Role.user(loggedInUser.$id)),
+                    Permission.delete(Role.user(loggedInUser.$id)),
+                ]
+            );
         }
     }
 
@@ -147,18 +154,20 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: any }) =
                         <button type="submit" className="invisible w-0 h-0" disabled={isLastWuilter}
                                 title={'Submit'}>Submit
                         </button>
-                        <div className='flex flex-col w-full'>
-                            {loggedInUser && (
+                        {(!loggedInUser || loggedInUser === 'pending') && (
+                            <div className='flex flex-col w-full'>
                                 <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1"><AnchorLink
                                     href={'/login'} title={'Log in'}
                                     className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1'/> to
-                                    post the next word!</div>
-                            )}
-                            <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1">What is <AnchorLink
-                                href={'/about'} title={'Wuilting'}
-                                className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1'/>?
+                                    post the next word!
+                                </div>
+                                <div className="opacity-80 text-5 sm:text-2.5 md:text-1.5 lg:text-1">What
+                                    is <AnchorLink
+                                        href={'/about'} title={'Wuilting'}
+                                        className='text-teal-500 hover:text-cyan-700 text-5 sm:text-2.5 md:text-1.5 lg:text-1'/>?
+                                </div>
                             </div>
-                        </div>
+                        )}
                     </form>
                 </div>
             </div>

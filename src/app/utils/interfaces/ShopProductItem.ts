@@ -4,9 +4,9 @@ export interface ShopProductItem {
     image: URL,
     is_new: boolean,
     cost: number,
-    $id: string,
-    $createdAt: Date;
-    $updatedAt: Date;
+    $id: string;
+    $createdAt: string;
+    $updatedAt: string;
     $permissions: string[];
     $databaseId: string;
     $collectionId: string;

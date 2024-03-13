@@ -3,13 +3,15 @@ import WuiltingMain from "@/app/components/wuilting/WuiltingMain";
 import Link from "next/link";
 import {database, databases} from "@/app/lib/appwrite";
 import {Query} from "appwrite";
+import WuiltingObject from "@/app/utils/interfaces/Wuilting";
 
 
 export const revalidate = 0
 
 export default async function Home() {
 
-    const fetchedWuiltings: any = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_HOSTNAME}/api/getWuiltings`);
+    const fetchedWuiltings: WuiltingObject[] = JSON.parse(await response.text()) ?? [];
 
     return (
       <main className={'w-full flex justify-center items-center h-9.5/10'} >

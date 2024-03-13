@@ -21,7 +21,7 @@ export const WuiltingHistoryMain = ({ wuiltingWords, wuiltingWordCount, wuilting
                               d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </Link>
-                <WuiltingAdminEdit wuiltingDate={((wuiltings && wuiltings[0] && wuiltings[0].$updatedAt) ? wuiltings[0].$updatedAt : new Date())} wordsRef={wordsRef}
+                <WuiltingAdminEdit wuiltingDate={((wuiltings && wuiltings[0] && wuiltings[0].$updatedAt) ? wuiltings[0].$updatedAt : new Date().toString())} wordsRef={wordsRef}
                                    isSaved={(wuiltings && wuiltings[0] && wuiltings[0].words) ? wuiltings[0].$id : null} editable={editable} setEditable={setEditable} />
             </div>
             <h2 className='text-center text-2.5 font-bold'>⏰ Wuilting History 📜</h2>

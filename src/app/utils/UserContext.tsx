@@ -9,7 +9,7 @@ interface UserContextProps {
 }
 
 interface UserContextValue {
-    loggedInUser: any;
+    loggedInUser: UserObject | null | "pending";
     setLoggedInUser: React.Dispatch<React.SetStateAction<UserObject | null | "pending">>;
 }
 
@@ -42,7 +42,7 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
 
             const data: UserDBObject = await response.json();
 
-            const newLoggedInUser: any = {...loggedInUser};
+            const newLoggedInUser: UserObject = {...loggedInUser};
             newLoggedInUser.avatar = data.avatar;
             newLoggedInUser.money = data.money;
             newLoggedInUser.purchasedProducts = data.purchasedProducts;
@@ -73,7 +73,7 @@ export const UserContextProvider = ({ children }: UserContextProps) => {
         }
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.users.documents`, response => {
-            const res: any = response.payload;
+            const res = response.payload as UserDBObject;
             if (loggedInUser !== "pending" && loggedInUser && loggedInUser.$id && res.$id === loggedInUser.$id) {
                 updateUser(res);
             }

@@ -6,12 +6,13 @@ import {useUserContext} from "@/app/utils/UserContext";
 import {UserData} from "@/app/utils/UserData";
 import sendToast from "@/app/utils/sendToast";
 import Spinner from "@/app/components/Spinner";
+import {ShopProductItem} from "@/app/utils/interfaces/ShopProductItem";
 
 export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
 
     const { loggedInUser, setLoggedInUser } = useUserContext();
     const [loading, setLoading] = useState<boolean>(false);
-    const {getData, setData} = UserData()
+    const {setData} = UserData()
 
     async function purchaseShopProduct() {
         try {
@@ -56,10 +57,10 @@ export const ProductCardButton = ({id, cost}: {id: string, cost: number}) => {
         return <Spinner/>
     }
 
-    if (loggedInUser.purchasedProducts.some((product: any) => product.$id === id)){
+    if (loggedInUser.purchasedProducts.some((product: ShopProductItem) => product.$id === id)){
         return (
             <div className="card-actions justify-end items-center">
-                <button className="btn btn-primary" onClick={purchaseShopProduct} title={'Owned'}>Owned</button>
+                <button className="btn btn-primary" title={'Owned'} disabled={true}>Owned</button>
             </div>
         )
     } else {

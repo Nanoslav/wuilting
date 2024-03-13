@@ -8,7 +8,7 @@ import sendToast from "@/app/utils/sendToast";
 import {account} from "@/app/lib/appwrite";
 import {useRouter} from "next/navigation";
 
-export const WuiltingAdminEdit = ({ wuiltingDate, isSaved, editable, setEditable, wordsRef } : { wuiltingDate: Date, isSaved: string | null, editable: boolean, setEditable: (value: boolean) => void, wordsRef: RefObject<HTMLDivElement> }) => {
+export const WuiltingAdminEdit = ({ wuiltingDate, isSaved, editable, setEditable, wordsRef } : { wuiltingDate: string, isSaved: string | null, editable: boolean, setEditable: (value: boolean) => void, wordsRef: RefObject<HTMLDivElement> }) => {
 
     const { loggedInUser } = useUserContext();
     const router = useRouter();
