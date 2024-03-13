@@ -14,7 +14,7 @@ import {useRouter} from "next/navigation";
 export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: WuiltingObject[] }) => {
 
     const { loggedInUser } = useUserContext();
-    const loggedInUserRef = useRef<UserObject | "none">(loggedInUser);
+    const loggedInUserRef = useRef<UserObject | "none">("none");
     const [loading, setLoading] = useState<boolean>(true);
 
     const [isLastWuilter, setIsLastWuilter] = useState<boolean>(true);
@@ -43,9 +43,10 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
     };
 
     const fetchData = async () => {
-
+        setIsLastWuilter(true);
         const fetchedWuiltings: Models.DocumentList<WuiltingObject> = await databases.listDocuments(database, 'wuilting', [Query.orderDesc("$updatedAt"), Query.limit(5)]);
         if(fetchedWuiltings){
+            console.info("NEW WUILTINGS: ", fetchedWuiltings.documents)
             setWuiltings(fetchedWuiltings.documents);
             wuiltingsRef.current = fetchedWuiltings.documents
         }
@@ -54,10 +55,9 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
 
     useEffect(() => {
 
-        if(fetchedWuiltings){
-            setWuiltings(fetchedWuiltings);
-            wuiltingsRef.current = fetchedWuiltings
-        }
+        setWuiltings(fetchedWuiltings);
+        console.info("FIRST WUILTINGS: ", fetchedWuiltings)
+        wuiltingsRef.current = fetchedWuiltings
         fetchData()
 
         const unsubscribe = client.subscribe(`databases.${database}.collections.wuilting.documents`, response => {
@@ -74,9 +74,10 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
     }, []);
 
     useEffect(() => {
-        if(loggedInUser){
+        setIsLastWuilter(true);
+        if(loggedInUser && loggedInUser !== 'pending'){
             loggedInUserRef.current = loggedInUser;
-            if(!wuiltingsRef.current[0] || loggedInUser === 'pending' || wuiltingsRef.current[0].author.$id === loggedInUser.$id){
+            if(!wuiltingsRef.current[0] || wuiltingsRef.current[0].author.$id === loggedInUser.$id){
                 setIsLastWuilter(true);
             } else {
                 setIsLastWuilter(false);
@@ -85,14 +86,14 @@ export const WuiltingMain = ({ fetchedWuiltings } : { fetchedWuiltings: Wuilting
             setIsLastWuilter(true);
             loggedInUserRef.current = 'none'
         }
-    }, [loggedInUser]);
+    }, [loggedInUser, wuiltings]);
 
     const submitWuilting = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLastWuilter(true);
         const wuilting = inputRef.current?.value;
         inputRef.current!.value = '';
-        if (wuilting && !isLastWuilter) {
+        if (wuilting && !isLastWuilter && loggedInUser && loggedInUser !== 'pending') {
             const oneWord = wuilting.split(' ')[0];
 
             inputRef.current!.value = '';
